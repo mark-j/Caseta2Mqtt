@@ -1,0 +1,23 @@
+<div mat-dialog-content>
+  <form [formGroup]="editDeviceForm">
+    <p>
+      This name and (optional) room will be used to form the MQTT topic for this device.
+    </p>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput [formControl]="editDeviceForm.controls['deviceNameControl']">
+      <mat-error *ngIf="editDeviceForm.controls['deviceNameControl'].hasError('required')">
+        Name is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Room</mat-label>
+      <input matInput [formControl]="editDeviceForm.controls['roomNameControl']">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!editDeviceForm.valid" (click)="okClickAsync()">Save</button>
+  <button mat-raised-button (click)="cancelClick()">Cancel</button>
+</div>

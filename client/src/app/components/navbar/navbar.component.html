@@ -1,0 +1,18 @@
+<mat-toolbar>
+  <button mat-button (click)="addSmartBridge()">
+    <mat-icon>add_circle</mat-icon>
+    <span>Add Bridge</span>
+  </button>
+  <div class="spacer"></div>
+  <button mat-button (click)="editMqttSettings()">
+    <mat-icon>settings</mat-icon>
+    <span>MQTT Settings</span>
+  </button>
+</mat-toolbar>
+<mat-nav-list>
+  <p mat-subheader>Smart Bridges:</p>
+  <a mat-list-item *ngFor="let smartBridge of dataService.smartBridges | async" (click)="selectSmartBridge(smartBridge.ipAddress)">
+    <mat-icon mat-list-icon>router</mat-icon>
+    <p mat-line>{{ smartBridge.ipAddress }}</p>
+  </a>
+</mat-nav-list>

@@ -1,0 +1,16 @@
+<header>
+  <mat-toolbar color="primary">
+    <span>Caseta to MQTT Gateway</span>
+    <span class="spacer"></span>
+    <mat-icon *ngIf="dataService.connected | async" matTooltip="UI Connected" aria-hidden="false" aria-label="Connected Icon">power</mat-icon>
+    <mat-icon *ngIf="!(dataService.connected | async)" matTooltip="UI Disconnected" aria-hidden="false" aria-label="Disconnected Icon">power_off</mat-icon>
+  </mat-toolbar>
+</header>
+<div class="main-container">
+  <nav>
+    <c2m-navbar (smartBridgeSelected)="smartBridgeSelected($event.ipAddress)"></c2m-navbar>
+  </nav>
+  <main>
+    <c2m-bridge-details [ipAddress]="selectedSmartBridgeIpAddress | async"></c2m-bridge-details>
+  </main>
+</div>

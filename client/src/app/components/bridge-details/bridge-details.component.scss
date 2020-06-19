@@ -1,0 +1,29 @@
+.container {
+  margin: 20px;
+
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+
+    td.actions-column {
+      width: 50px;
+    }
+  }
+
+  mat-card-footer {
+    display: flex;
+
+    .buttons {
+      padding: 8px;
+    }
+
+    .filter {
+      flex-grow: 1;
+      padding-left: 16px;
+    }
+  }
+}

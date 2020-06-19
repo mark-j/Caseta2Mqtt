@@ -1,0 +1,58 @@
+<div mat-dialog-content>
+  <form [formGroup]="mqttSettingsForm">
+    <mat-form-field>
+      <mat-label>Host</mat-label>
+      <input matInput [formControl]="mqttSettingsForm.controls['hostControl']" placeholder="Ex. mqtt://test.mosquitto.org">
+      <mat-hint>Supported protocols: mqtt, mqtts, tcp, tls, ws, wss</mat-hint>
+      <mat-error *ngIf="mqttSettingsForm.controls['hostControl'].hasError('pattern') && !mqttSettingsForm.controls['hostControl'].hasError('required')">
+        Please enter a valid MQTT host, including protocol (example: mqtt://test.mosquitto.org).
+      </mat-error>
+      <mat-error *ngIf="mqttSettingsForm.controls['hostControl'].hasError('required')">
+        Host is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Port</mat-label>
+      <input matInput [formControl]="mqttSettingsForm.controls['portControl']" placeholder="Ex. 1883">
+      <mat-error *ngIf="mqttSettingsForm.controls['portControl'].hasError('min') && !mqttSettingsForm.controls['portControl'].hasError('required') && !mqttSettingsForm.controls['portControl'].hasError('pattern')">
+        Port can't be less than 1.
+      </mat-error>
+      <mat-error *ngIf="mqttSettingsForm.controls['portControl'].hasError('max') && !mqttSettingsForm.controls['portControl'].hasError('required') && !mqttSettingsForm.controls['portControl'].hasError('pattern')">
+        Port can't be higher than 65535.
+      </mat-error>
+      <mat-error *ngIf="mqttSettingsForm.controls['portControl'].hasError('pattern') && !mqttSettingsForm.controls['portControl'].hasError('required')">
+        Port must be a whole number between 1 and 65535.
+      </mat-error>
+      <mat-error *ngIf="mqttSettingsForm.controls['portControl'].hasError('required')">
+        Port is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Username</mat-label>
+      <input matInput [formControl]="mqttSettingsForm.controls['usernameControl']">
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input type="password" matInput [formControl]="mqttSettingsForm.controls['passwordControl']">
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>QoS</mat-label>
+      <mat-select [formControl]="mqttSettingsForm.controls['qosControl']">
+        <mat-option value="0">0 - At most once</mat-option>
+        <mat-option value="1">1 - At least once</mat-option>
+        <mat-option value="2">2 - Exactly once</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+    <mat-checkbox [formControl]="mqttSettingsForm.controls['retainControl']">Retain</mat-checkbox>
+  </form>
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!mqttSettingsForm.valid" (click)="okClickAsync()">Save</button>
+  <button mat-raised-button (click)="cancelClick()">Cancel</button>
+</div>

@@ -1,0 +1,29 @@
+@import '~@angular/material/theming';
+
+header {
+  @include mat-elevation(2);
+
+    mat-icon {
+      padding: 0 14px;
+      cursor: default;
+    }
+
+    .spacer {
+      flex: 1 1 auto;
+    }
+}
+
+.main-container {
+  display: flex;
+  height: calc(100vh - 64px);
+
+  nav {
+    @include mat-elevation(1);
+    width: 325px;
+  }
+
+  main {
+    flex: 1;
+    overflow-y: scroll;
+  }
+}

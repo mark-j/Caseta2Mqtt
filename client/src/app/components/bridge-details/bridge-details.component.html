@@ -1,0 +1,47 @@
+<div class="container" [hidden]="!(smartBridge | async)">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Caseta Smart Bridge Pro</mat-card-title>
+      <mat-card-subtitle *ngIf="smartBridge | async">{{ (smartBridge | async).ipAddress }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-divider></mat-divider>
+      <table mat-table [dataSource]="dataSource" *ngIf="smartBridge | async">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">{{element.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="room">
+          <th mat-header-cell *matHeaderCellDef>Room</th>
+          <td mat-cell *matCellDef="let element">{{element.room || '(not set)'}}</td>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element" class="actions-column">
+            <button mat-icon-button aria-label="Edit" (click)="editClickAsync(element.id)">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card-content>
+    <mat-card-footer>
+      <div class="filter">
+        <mat-form-field>
+          <mat-label>Filter</mat-label>
+          <input matInput (keyup)="applyFilter($event)">
+        </mat-form-field>
+        </div>
+      <div class="paginator">
+        <mat-paginator [pageSizeOptions]="[10, 50, 100]"></mat-paginator>
+      </div>
+      <div class="buttons">
+        <button mat-icon-button aria-label="Delete Smart Bridge" matTooltip="Delete Smart Bridge" matTooltipPosition="above" (click)="deleteClickAsync()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</div>

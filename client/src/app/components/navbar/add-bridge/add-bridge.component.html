@@ -1,0 +1,32 @@
+<div mat-dialog-content>
+  <form [formGroup]="newBridgeForm">
+    <p>
+      Enter the IP address of of your <strong matTooltip="The non-Pro Smart Bridge (L-BDG2-WH) is not supported.">Smart Bridge Pro</strong> here, and make sure <strong matTooltip="Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Telnet Support">Telnet Support</strong> is enabled.
+    </p>
+    <p>
+      You can also optionally copy and paste the <strong matTooltip="Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Send Integration Report">Integration Report</strong> here as well. Without it, you'll need to identify devices manually.
+    </p>
+    <mat-form-field>
+      <mat-label>IP Address</mat-label>
+      <input matInput [formControl]="newBridgeForm.controls['ipAddressControl']" placeholder="Ex. 192.168.86.99">
+      <mat-hint>Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Network Settings</mat-hint>
+      <mat-error *ngIf="newBridgeForm.controls['ipAddressControl'].hasError('ip') && !newBridgeForm.controls['ipAddressControl'].hasError('required')">
+        Please enter a valid IP address.
+      </mat-error>
+      <mat-error *ngIf="newBridgeForm.controls['ipAddressControl'].hasError('required')">
+        IP address is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
+      <mat-label>Integration Report</mat-label>
+      <textarea matInput [formControl]="newBridgeForm.controls['integrationReportControl']"></textarea>
+      <mat-hint>Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Send Integration Report</mat-hint>
+    </mat-form-field>
+  </form>
+
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [disabled]="!newBridgeForm.valid" (click)="okClickAsync()">Add</button>
+  <button mat-raised-button (click)="cancelClick()">Cancel</button>
+</div>
