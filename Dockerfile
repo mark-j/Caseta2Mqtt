@@ -6,6 +6,6 @@ RUN npm run build
 
 FROM node:alpine
 WORKDIR /usr/src/app
-COPY --from=build /dist/* ./
+COPY --from=build /usr/src/build/dist/* ./
 EXPOSE 4600
 CMD [ "node", "server.js" ]
