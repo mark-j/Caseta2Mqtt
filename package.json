@@ -3,11 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "build": "rm -rf dist && npm run client:build && npm run server:build",
-    "watch": "concurrently \"npm run client:watch\" \"npm run server:watch\"",
-    "start": "node dist/server",
-    "server:watch": "cd server && webpack --config webpack.config.js",
-    "server:build": "cd server && webpack --config webpack.config.js --env=production",
-    "client:watch": "cd client && ng build --watch",
+    "server:build": "cd server && ncc build ./src/main.ts -o ../dist",
     "client:build": "cd client && ng build --no-progress --configuration=production"
   },
   "private": true,
@@ -44,7 +40,7 @@
     "@types/jasmine": "3.5.0",
     "@types/jasminewd2": "2.0.3",
     "@types/uuid": "3.4.7",
-    "@types/webpack-env": "^1.15.2",
+    "@zeit/ncc": "^0.22.3",
     "codelyzer": "5.1.2",
     "concurrently": "5.1.0",
     "jasmine-core": "3.5.0",
@@ -58,8 +54,6 @@
     "ts-loader": "6.2.1",
     "ts-node": "8.3.0",
     "tslint": "5.18.0",
-    "typescript": "3.7.5",
-    "webpack-cli": "3.3.10",
-    "webpack-node-externals": "1.7.2"
+    "typescript": "3.7.5"
   }
 }
