@@ -11,7 +11,7 @@ on:
 
 jobs:
   pr-title-check:
-    name: Check PR Title
+    name: Title and Description
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -20,5 +20,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Get dependencies
+        run: npm install
       - name: Lint PR title
         uses: wagoid/commitlint-github-action@v1
