@@ -2,10 +2,6 @@ name: PR Checks
 
 on:
   pull_request:
-    types:
-      - opened
-      - edited
-      - synchronize
 
 jobs:
   pr-title-check:
