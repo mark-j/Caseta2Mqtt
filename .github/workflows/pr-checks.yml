@@ -7,11 +7,10 @@ on:
     types:
       - opened
       - edited
-      - reopened
       - synchronize
 
 jobs:
-  commitlint-check:
+  pr-title-check:
     name: Commitlint
     runs-on: ubuntu-latest
     env:
@@ -24,4 +23,4 @@ jobs:
       - name: Get dependencies
         run: npm install
       - name: Run commitlint
-        uses: pull-request-name-linter-action@v0.1.2
+        uses: JulienKode/pull-request-name-linter-action@v0.1.2
