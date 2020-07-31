@@ -1,0 +1,26 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - master
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  pr-title-check:
+    name: Commitlint
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Get dependencies
+        run: npm install
+      - name: Run commitlint
+        uses: JulienKode/pull-request-name-linter-action@v0.1.2
