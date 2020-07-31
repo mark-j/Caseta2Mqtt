@@ -10,8 +10,8 @@ on:
       - synchronize
 
 jobs:
-  pr-title-check:
-    name: Title and Description
+  commitlint-check:
+    name: Commitlint
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -22,5 +22,5 @@ jobs:
           fetch-depth: 0
       - name: Get dependencies
         run: npm install
-      - name: Lint PR title
-        uses: wagoid/commitlint-github-action@v1
+      - name: Run commitlint
+        uses: pull-request-name-linter-action@v0.1.2
