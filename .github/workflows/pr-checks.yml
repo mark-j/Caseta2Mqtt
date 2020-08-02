@@ -3,10 +3,12 @@ name: PR Checks
 on:
   pull_request:
     branches:
-      - master
+      - main
     types:
       - opened
       - edited
+      - closed
+      - reopened
       - synchronize
 
 jobs:
@@ -21,6 +23,43 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get dependencies
-        run: npm install
+        run: npm install @commitlint/config-conventional
       - name: Run commitlint
         uses: JulienKode/pull-request-name-linter-action@v0.1.2
+      - name: Comment on failure
+        if: failure() && !contains(toJson(github), 'fix-title')
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: The name of this pull request failed linting. Please fix it before merging.
+          check_for_duplicate_msg: false
+      - name: Label on failure
+        if: failure() && !contains(toJson(github), 'fix-title')
+        uses: buildsville/add-remove-label@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          label: fix-title
+          type: add
+      - name: Comment on success
+        if: contains(toJson(github), 'fix-title') && !failure()
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: The name of this pull request looks good now.
+          check_for_duplicate_msg: false
+      - name: Remove label on success
+        if: contains(toJson(github), 'fix-title') && !failure()
+        uses: buildsville/add-remove-label@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          label: fix-title
+          type: remove
+
+  pr-assignment:
+    name: Assignment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign reviewer/owner
+        uses: kentaro-m/auto-assign-action@v1.1.1
