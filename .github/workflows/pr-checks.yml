@@ -28,7 +28,7 @@ jobs:
         uses: JulienKode/pull-request-name-linter-action@v0.1.2
 
   pr-assignment:
-    name: Assign Reviewer/Owner
+    name: Assignment
     runs-on: ubuntu-latest
     steps:
       - name: Assign reviewer/owner
