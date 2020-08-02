@@ -1,0 +1,22 @@
+name: Dev Branch Reset
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+
+  git-reset:
+    name: Reset From Main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+      - name: Diff branches
+        uses: technote-space/get-diff-action@v2
+      - name: Git reset
+        if: env.GIT_DIFF
+        run: |
+          git checkout dev
+          git reset --hard main
+          git push --force
