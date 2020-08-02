@@ -14,11 +14,11 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
       - name: Diff branches
+        shell: bash {0}
         run: |
           git fetch
           git diff origin/main...dev --exit-code; branchesMatch=$((! $?))
           echo "::set-env name=branchesMatch::$branchesMatch"
-          exit 0
       - name: Git reset
         if: env.branchesMatch == true
         run: |
