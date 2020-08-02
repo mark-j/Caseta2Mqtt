@@ -6,6 +6,7 @@ on:
       - main
       - dev
 
+Jobs:
   git-reset:
     name: Reset From Main
     runs-on: ubuntu-latest
