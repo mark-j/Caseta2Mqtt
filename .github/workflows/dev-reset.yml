@@ -14,9 +14,13 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
       - name: Diff branches
-        uses: technote-space/get-diff-action@v2
+        shell: bash {0}
+        run: |
+          git fetch
+          git diff origin/main...dev --exit-code; branchesMatch=$((! $?))
+          echo "::set-env name=branchesMatch::$branchesMatch"
       - name: Git reset
-        if: (!env.GIT_DIFF)
+        if: env.branchesMatch == true
         run: |
           git checkout dev
           git reset --hard main
