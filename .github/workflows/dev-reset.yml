@@ -17,7 +17,7 @@ jobs:
         shell: bash {0}
         run: |
           git fetch
-          git diff origin/main...dev --exit-code; branchesMatch=$((! $?))
+          git --no-pager diff origin/main..origin/dev --exit-code; branchesMatch=$((! $?))
           echo "::set-env name=branchesMatch::$branchesMatch"
       - name: Git reset
         if: env.branchesMatch == true
