@@ -26,6 +26,13 @@ jobs:
         run: npm install
       - name: Run commitlint
         uses: JulienKode/pull-request-name-linter-action@v0.1.2
+      - name: Comment on failure
+        if: failure()
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: The name of this pull request failed linting. Please fix it before merging.
 
   pr-assignment:
     name: Assignment
