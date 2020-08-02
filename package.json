@@ -2,7 +2,8 @@
   "name": "caseta2mqtt",
   "version": "0.0.2",
   "scripts": {
-    "build": "rm -rf dist && npm run client:build && npm run server:build",
+    "start": "cd dist && node .",
+    "build": "rm -rf dist && npm install && npm run client:build && npm run server:build",
     "server:build": "cd server && ncc build ./src/main.ts -o ../dist",
     "client:build": "cd client && ng build --no-progress --configuration=production"
   },
@@ -18,7 +19,7 @@
     "@angular/platform-browser": "9.0.0",
     "@angular/platform-browser-dynamic": "9.0.0",
     "@angular/router": "9.0.0",
-    "async-mqtt": "2.5.0",
+    "async-mqtt": "2.6.1",
     "body-parser": "1.19.0",
     "express": "4.17.1",
     "express-ws": "4.0.0",
