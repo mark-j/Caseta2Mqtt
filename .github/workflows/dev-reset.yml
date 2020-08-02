@@ -18,6 +18,7 @@ jobs:
           git fetch
           git diff origin/main...dev --exit-code; branchesMatch=$((! $?))
           echo "::set-env name=branchesMatch::$branchesMatch"
+          exit 0
       - name: Git reset
         if: env.branchesMatch == true
         run: |
