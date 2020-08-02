@@ -33,6 +33,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: The name of this pull request failed linting. Please fix it before merging.
+          check_for_duplicate_msg: false
       - name: Label on failure
         if: failure()
         uses: buildsville/add-remove-label@v1
@@ -47,7 +48,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: The name of this pull request looks good now.
-      - name: Comment on success
+          check_for_duplicate_msg: false
+      - name: Remove label on success
         if: contains(toJson(github), 'fix-title' ) && !failure()
         uses: buildsville/add-remove-label@v1
         with:
