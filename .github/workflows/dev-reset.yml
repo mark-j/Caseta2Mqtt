@@ -15,7 +15,7 @@ on:
       - name: Diff branches
         uses: technote-space/get-diff-action@v2
       - name: Git reset
-        if: env.GIT_DIFF
+        if: !env.GIT_DIFF
         run: |
           git checkout dev
           git reset --hard main
