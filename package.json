@@ -1,6 +1,6 @@
 {
   "name": "caseta2mqtt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "scripts": {
     "start": "cd dist && node .",
     "build": "rm -rf dist && npm install && npm run client:build && npm run server:build",
