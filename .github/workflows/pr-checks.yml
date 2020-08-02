@@ -33,6 +33,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           msg: The name of this pull request failed linting. Please fix it before merging.
+      - name: Label on failure
+        if: failure()
+        uses: buildsville/add-remove-label@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          label: fix-title
+          type: add
+      - name: Comment on success
+        if: contains(toJson(github), 'fix-title' ) && !failure()
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: The name of this pull request looks good now.
+      - name: Comment on success
+        if: contains(toJson(github), 'fix-title' ) && !failure()
+        uses: buildsville/add-remove-label@v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          label: fix-title
+          type: remove
 
   pr-assignment:
     name: Assignment
