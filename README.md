@@ -4,15 +4,15 @@ A gateway to connect a Lutron Caseta Smart Bridge Pro and MQTT.
 ## Installation
 The application must be running on the same network as the Smart Bridge Pro.
 
+### Docker
+A docker container is available to host this application, and can be installed by running:
+- `docker run markjohnson/caseta2mqtt`
+
 ### Node.js
 If you have Node.js installed locally, you can run the application by doing the following:
 1. Clone or download this repo into a folder.
 2. Run `npm run build` to build the application.
 3. Run `npm start` to run the application.
-
-### Docker
-A docker container is available to host this application, and can be installed by running:
-- `*`docker run markjohnson/caseta2mqtt`
 
 ### Manually
 Running `npm run build`, will compile the source into `./dist`.
@@ -56,11 +56,5 @@ the change in [imperative mood](https://chris.beams.io/posts/git-commit/#imperat
 - **feat** - Adding functionality. Example: `feat: support custom topics`
 - **fix** - Fixing a bug. Example: `fix: update incorrect validation`
 - **chore** - Maintenance or cleanup. Example: `chore: update dependency versions`
-
-- **build** - 
-- **ci** - 
-- **docs** - 
-- **perf** - 
-- **refactor** - 
-- **revert** - 
-- **style** - 
+- **refactor** - Nonfunctional changes. Example: `refactor: remove unused variable`
+- **docs** - Changes to documentation. Example: `docs: add example code`
