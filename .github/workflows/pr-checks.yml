@@ -15,7 +15,7 @@ jobs:
     name: Commitlint
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
@@ -29,7 +29,7 @@ jobs:
         if: failure() && !contains(toJson(github), 'fix-title')
         uses: unsplash/comment-on-pr@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           msg: The name of this pull request failed linting. Please fix it before merging.
           check_for_duplicate_msg: false
@@ -37,14 +37,14 @@ jobs:
         if: failure() && !contains(toJson(github), 'fix-title')
         uses: buildsville/add-remove-label@v1
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.BOT_TOKEN}}
           label: fix-title
           type: add
       - name: Comment on success
         if: contains(toJson(github), 'fix-title') && !failure()
         uses: unsplash/comment-on-pr@master
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           msg: The name of this pull request looks good now.
           check_for_duplicate_msg: false
@@ -52,7 +52,7 @@ jobs:
         if: contains(toJson(github), 'fix-title') && !failure()
         uses: buildsville/add-remove-label@v1
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
+          token: ${{secrets.BOT_TOKEN}}
           label: fix-title
           type: remove
 

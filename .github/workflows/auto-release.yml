@@ -18,5 +18,15 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: Bump version
-        uses: soamee/gh-action-conventional-commits@v8.0.0
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.BOT_TOKEN }}
+          git-message: 'ci: version bump to {version}'
+          git-user-name: 'CI Bot'
+          preset: 'angular'
+          tag-prefix: 'v'
+          output-file: 'false'
+          skip-on-empty: 'true'
+          skip-version-file: 'false'
+          skip-commit: 'false'

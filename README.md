@@ -58,3 +58,21 @@ the change in [imperative mood](https://chris.beams.io/posts/git-commit/#imperat
 - **chore** - Maintenance or cleanup. Example: `chore: update dependency versions`
 - **refactor** - Nonfunctional changes. Example: `refactor: remove unused variable`
 - **docs** - Changes to documentation. Example: `docs: add example code`
+
+### `dev` Branch
+There is a permanent `dev` branch that can be used for experimental changes. Every push to
+that branch is automatically built as a docker container tagged `markjohnson/caseta2mqtt:dev`.
+
+Pull requests to this branch are welcome, and maintainers can push to it directly.
+
+<table>
+  <tbody>
+    <tr>
+     <td>
+      :warning:  **Warning:** This branch is automatically rebased after every release. To
+      avoid issues with local copies always do a `git pull --rebase` instead of a `git pull`.
+     </td>
+    </tr>
+  </tbody>
+</table>
+
