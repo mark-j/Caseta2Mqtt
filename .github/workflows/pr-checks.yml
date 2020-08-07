@@ -62,3 +62,5 @@ jobs:
     steps:
       - name: Assign reviewer/owner
         uses: kentaro-m/auto-assign-action@v1.1.1
+        with:
+          repo-token: ${{secrets.BOT_TOKEN}}

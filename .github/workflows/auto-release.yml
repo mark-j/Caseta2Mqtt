@@ -24,7 +24,6 @@ jobs:
           github-token: ${{ secrets.BOT_TOKEN }}
           git-message: 'ci: version bump to {version}'
           git-user-name: 'CI Bot'
-          git-user-email: 'cibot@darkorbit.net'
           preset: 'angular'
           tag-prefix: 'v'
           output-file: 'false'
