@@ -22,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Get dependencies
-        run: npm install @commitlint/config-conventional
+        run: npm install --no-save @commitlint/config-conventional @commitlint/format conventional-changelog-angular
       - name: Run commitlint
         uses: JulienKode/pull-request-name-linter-action@v0.1.2
       - name: Comment on failure
