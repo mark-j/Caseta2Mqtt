@@ -27,8 +27,8 @@ jobs:
           branch: release-${{ github.run_number }}
       - name: Bump version number
         run: |
-          npm install
-          recommendation=$(conventional-recommended-bump -v -p=angular -t=v)
+          npm install --no-save conventional-recommended-bump conventional-changelog-angular
+          recommendation=$($(npm bin)/conventional-recommended-bump -v -p=angular -t=v)
           bumpWhat=$(echo "$recommendation" | sed -n '1p')
           bumpWhy=$(echo "$recommendation" | sed -n '2p')
           newVersion=$(npm version $bumpWhat --no-git-tag-version)
