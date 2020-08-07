@@ -24,7 +24,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
-          branch: main/rc-${{ github.run_number }}
+          branch: release-${{ github.run_number }}
       - name: Bump version number
         run: |
           npm install --global conventional-recommended-bump
@@ -40,14 +40,14 @@ jobs:
         uses: github-actions-x/commit@v2.6
         with:
           github-token: ${{ secrets.BOT_TOKEN }}
-          push-branch: main/rc-${{ github.run_number }}
+          push-branch: release-${{ github.run_number }}
           commit-message: "ci: bump version to ${{ env.newVersion }}"
           name: CI Bot
           email: marks-ci-bot@users.noreply.github.com
       - name: Create PR to main
         uses: repo-sync/pull-request@v2
         with:
-          source_branch: main/rc-${{ github.run_number }}
+          source_branch: release-${{ github.run_number }}
           destination_branch: main
           pr_title: "ci: bump version to ${{ env.newVersion }}"
           pr_body: |
@@ -64,7 +64,7 @@ jobs:
         id: find-pull-request
         with:
           github-token: ${{ secrets.BOT_TOKEN }}
-          branch: main/rc-${{ github.run_number }}
+          branch: release-${{ github.run_number }}
       - name: Approve PR
         uses: juliangruber/approve-pull-request-action@v1
         with:
