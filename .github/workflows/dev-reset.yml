@@ -1,4 +1,4 @@
-name: Dev Branch Reset
+name: Reset Check
 
 on:
   push:
