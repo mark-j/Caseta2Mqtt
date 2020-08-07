@@ -23,7 +23,7 @@ jobs:
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.BOT_TOKEN }}
-          git-message: ci: bump version to {version}
+          git-message: ci: "bump version to {version}"
           git-user-name: CI Bot
           git-user-email: marks-ci-bot@users.noreply.github.com
           preset: angular
