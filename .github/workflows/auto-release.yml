@@ -19,60 +19,14 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
-      - name: Create RC branch
-        uses: peterjgrainger/action-create-branch@v1.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-        with:
-          branch: release-${{ github.run_number }}
-      - name: Bump version number
-        run: |
-          npm install --no-save conventional-recommended-bump conventional-changelog-angular
-          recommendation=$($(npm bin)/conventional-recommended-bump -v -p=angular -t=v)
-          bumpWhat=$(echo "$recommendation" | sed -n '1p')
-          bumpWhy=$(echo "$recommendation" | sed -n '2p')
-          newVersion=$(npm version $bumpWhat --no-git-tag-version)
-          echo "::set-env name=bumpWhat::$bumpWhat"
-          echo "::set-env name=bumpWhy::$bumpWhy"
-          echo "::set-env name=newVersion::$newVersion"
-      - name: Push changes to PR
-        uses: github-actions-x/commit@v2.6
+      - name: Conventional Changelog Action
+        uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.BOT_TOKEN }}
-          push-branch: release-${{ github.run_number }}
-          commit-message: "ci: bump version to ${{ env.newVersion }}"
-          name: CI Bot
-          email: marks-ci-bot@users.noreply.github.com
-      - name: Create PR to main
-        uses: repo-sync/pull-request@v2
-        with:
-          source_branch: release-${{ github.run_number }}
-          destination_branch: main
-          pr_title: "ci: bump version to ${{ env.newVersion }}"
-          pr_body: |
-            Bumping ${{ env.bumpWhat }} version to ${{ env.newVersion }} based on merge from ${{ github.ref }} into `main`.
-
-            ${{ env.bumpWhy }}
-          pr_reviewer: marks-ci-bot
-          pr_assignee: marks-ci-bot
-          pr_label: version-bump
-          pr_allow_empty: false
-          github_token: ${{ secrets.BOT_TOKEN }}
-      - name: Get PR issue number
-        uses: juliangruber/find-pull-request-action@v1
-        id: find-pull-request
-        with:
-          github-token: ${{ secrets.BOT_TOKEN }}
-          branch: release-${{ github.run_number }}
-      - name: Approve PR
-        uses: juliangruber/approve-pull-request-action@v1
-        with:
-          github-token: ${{ secrets.BOT_TOKEN }}
-          number: ${{ steps.find-pull-request.outputs.number }}
-      - name: Merge PR
-        if: 1==2
-        uses: juliangruber/merge-pull-request-action@v1
-        with:
-          github-token: ${{ secrets.BOT_TOKEN }}
-          number: ${{ steps.find-pull-request.outputs.number }}
-          method: squash
+          git-message: ci: bump version to {version}
+          git-user-name: CI Bot
+          git-user-email: marks-ci-bot@users.noreply.github.com
+          preset: angular
+          tag-prefix: v
+          output-file: false
+          skip-on-empty: true
