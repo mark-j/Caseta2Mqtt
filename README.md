@@ -6,7 +6,7 @@ The application must be running on the same network as the Smart Bridge Pro.
 
 ### Docker
 A docker container is available to host this application, and can be installed by running:
-- `docker run markjohnson/caseta2mqtt`
+- `docker run markjohnson/caseta2mqtt --mount source=caseta2mqtt,target=/usr/src/app/data`
 
 ### Node.js
 If you have Node.js installed locally, you can run the application by doing the following:
