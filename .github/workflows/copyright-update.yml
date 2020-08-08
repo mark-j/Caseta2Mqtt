@@ -1,0 +1,17 @@
+name: Copyright Updates
+
+on:
+  schedule:
+    - cron: "0 3 1 1 *"
+
+jobs:
+  bump-version:
+    name: License File
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update license file
+        uses: FantasticFiasco/action-update-license-year@v1
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          commitTitle: "chore: update copyright year to {{currentYear}}"
+          prTitle: "chore: update copyright year to {{currentYear}}"
