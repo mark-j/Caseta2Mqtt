@@ -69,7 +69,7 @@ Pull requests to this branch are welcome, and maintainers can push to it directl
   <tbody>
     <tr>
      <td>
-      :warning:  **Warning:** This branch is automatically rebased after every release. To
+      :warning: <b>Warning:</b> This branch is automatically rebased after every release. To
       avoid issues with local copies always do a `git pull --rebase` instead of a `git pull`.
      </td>
     </tr>

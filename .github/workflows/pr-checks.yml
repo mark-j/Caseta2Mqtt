@@ -1,7 +1,7 @@
 name: PR Checks
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
     types:
@@ -17,21 +17,15 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Get dependencies
-        run: npm install --no-save @commitlint/config-conventional @commitlint/format conventional-changelog-angular
+        run: npm install --no-save @commitlint/config-conventional @commitlint/config-conventional
       - name: Run commitlint
         uses: JulienKode/pull-request-name-linter-action@v0.1.2
       - name: Comment on failure
         if: failure() && !contains(github.event.pull_request.labels.*.name, 'fix-title')
         uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
-          msg: The name of this pull request failed linting. Please fix it before merging.
+          msg: ":warning: The name of this pull request failed linting. Please fix it before merging."
           check_for_duplicate_msg: false
       - name: Label on failure
         if: failure() && !contains(github.event.pull_request.labels.*.name, 'fix-title')
@@ -43,10 +37,8 @@ jobs:
       - name: Comment on success
         if: contains(github.event.pull_request.labels.*.name, 'fix-title') && !failure()
         uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
-          msg: The name of this pull request looks good now.
+          msg: ":heavy_check_mark: The name of this pull request looks good now."
           check_for_duplicate_msg: false
       - name: Remove label on success
         if: contains(github.event.pull_request.labels.*.name, 'fix-title') && !failure()
