@@ -1,0 +1,12 @@
+version: '3.7'
+services:
+  caseta2mqtt:
+    container_name: caseta2mqtt
+    image: markjohnson/caseta2mqtt:latest
+    restart: always
+    volumes:
+      - caseta2mqtt:/usr/src/app/data
+    ports:
+      - '4600:4600'
+volumes:
+  caseta2mqtt:
