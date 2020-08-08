@@ -3,7 +3,7 @@
   "version": "0.1.2",
   "scripts": {
     "start": "cd dist && node .",
-    "build": "rm -rf dist && npm install && npm run client:build && npm run server:build",
+    "build": "rm -rf dist && mkdir -p dist/data && npm install && npm run client:build && npm run server:build",
     "server:build": "cd server && ncc build ./src/main.ts -o ../dist",
     "client:build": "cd client && ng build --no-progress --configuration=production"
   },

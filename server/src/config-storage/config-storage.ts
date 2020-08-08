@@ -7,7 +7,7 @@ import { IntegrationReportModel } from './integration-report-model';
 import { SmartBridgeModel } from './smart-bridge-model';
 import { DeviceType } from '../caseta-connection/smart-bridge-connection';
 
-const configFilePath = path.join(__dirname, 'config.json');
+const configFilePath = path.join(__dirname, 'data/config.json');
 const configFileEncoding = 'utf8';
 
 export class ConfigStorage extends EventEmitter {
