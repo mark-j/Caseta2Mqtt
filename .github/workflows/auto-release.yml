@@ -28,5 +28,5 @@ jobs:
           git-user-email: marks-ci-bot@users.noreply.github.com
           preset: angular
           tag-prefix: v
-          output-file: false
+          version-file: package.json, package-lock.json
           skip-on-empty: true
