@@ -50,13 +50,14 @@ export class Gateway {
 
   private _processEventAsync = async (event: EventModel, smartBridge: SmartBridgeModel) => {
     const config = await this._configStorage.getLatestConfigAsync();
-    if (!config.mqtt) {
-      return;
-    }
 
     let device = smartBridge.devices.find(d => d.id === event.deviceId);
     if (!device) {
       device = await this._configStorage.addDeviceAsync(smartBridge.ipAddress, event.deviceId, event.deviceType);
+    }
+
+    if (!config.mqtt) {
+      return;
     }
 
     const mqttPath = device.room
