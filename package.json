@@ -3,9 +3,9 @@
   "version": "0.2.2",
   "scripts": {
     "clean": "rimraf dist && mkdirp dist/data",
-    "start": "npm run clean && npm install && npm:build && cd dist && node .",
-    "build": "npm run clean && npm install && concurrently npm:build:server npm:build:client",
-    "watch": "npm run clean && npm install && concurrently npm:watch:server npm:watch:client npm:watch:run",
+    "start": "npm install && npm run clean && npm:build && cd dist && node .",
+    "build": "npm install && npm run clean && concurrently npm:build:server npm:build:client",
+    "watch": "npm install && npm run clean && concurrently npm:watch:server npm:watch:client npm:watch:run",
     "build:server": "ncc build server/src/main.ts -o dist",
     "watch:server": "ncc build server/src/main.ts -o dist -w",
     "build:client": "cd client && ng build --no-progress --configuration=production",
