@@ -1,3 +1,12 @@
+## [0.2.3](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.2...v0.2.3) (2020-08-14)
+
+
+### Bug Fixes
+
+* correct script sequence ([000d864](https://github.com/mark-j/Caseta2Mqtt/commit/000d864e9f6e03ed10f5c78410d2cbe544be7f8b))
+
+
+
 ## [0.2.2](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.1...v0.2.2) (2020-08-14)
 
 
@@ -40,15 +49,6 @@
 ### Features
 
 * add dev branch reset workflow ([#9](https://github.com/mark-j/Caseta2Mqtt/issues/9)) ([4265ce5](https://github.com/mark-j/Caseta2Mqtt/commit/4265ce53350743bc04d9bcb2021d39561bbc8f81)), closes [#8](https://github.com/mark-j/Caseta2Mqtt/issues/8) [#6](https://github.com/mark-j/Caseta2Mqtt/issues/6) [#7](https://github.com/mark-j/Caseta2Mqtt/issues/7)
-
-
-
-# [0.1.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.0.4...v0.1.0) (2020-08-02)
-
-
-### Features
-
-* add dev branch reset workflow ([#7](https://github.com/mark-j/Caseta2Mqtt/issues/7)) ([e178953](https://github.com/mark-j/Caseta2Mqtt/commit/e17895337c97b0e199c534f17ae8d596bd82edef))
 
 
 
