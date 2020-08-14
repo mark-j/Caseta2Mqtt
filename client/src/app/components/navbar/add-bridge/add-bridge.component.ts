@@ -27,7 +27,7 @@ export class AddBridgeComponent {
   okClickAsync = async () => {
     const body = {
       ipAddress: this.newBridgeForm.controls.ipAddressControl.value,
-      integrationReport: this.newBridgeForm.controls.integrationReportControl.value
+      integrationReport: this.newBridgeForm.controls.integrationReportControl.value.replace(/\s/g, ' ')
     };
 
     await this._http.post('/api/bridge', body).toPromise();
