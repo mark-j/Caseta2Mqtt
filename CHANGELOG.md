@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.1...v0.2.2) (2020-08-14)
+
+
+### Bug Fixes
+
+* clean pasted json ([3e5f2e6](https://github.com/mark-j/Caseta2Mqtt/commit/3e5f2e6235e81e266a2b277adb809a875bfbad26))
+
+
+
 ## [0.2.1](https://github.com/mark-j/Caseta2Mqtt/compare/v0.1.2...v0.2.1) (2020-08-09)
 
 
@@ -40,10 +49,6 @@
 ### Features
 
 * add dev branch reset workflow ([#7](https://github.com/mark-j/Caseta2Mqtt/issues/7)) ([e178953](https://github.com/mark-j/Caseta2Mqtt/commit/e17895337c97b0e199c534f17ae8d596bd82edef))
-
-
-
-## [0.0.4](https://github.com/mark-j/Caseta2Mqtt/compare/v0.0.3...v0.0.4) (2020-08-02)
 
 
 
