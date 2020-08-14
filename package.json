@@ -2,10 +2,15 @@
   "name": "caseta2mqtt",
   "version": "0.2.1",
   "scripts": {
-    "start": "cd dist && node .",
-    "build": "rm -rf dist && mkdir -p dist/data && npm install && npm run client:build && npm run server:build",
-    "server:build": "cd server && ncc build ./src/main.ts -o ../dist",
-    "client:build": "cd client && ng build --no-progress --configuration=production"
+    "clean": "rimraf dist && mkdirp dist/data",
+    "start": "npm run clean && npm install && npm:build && cd dist && node .",
+    "build": "npm run clean && npm install && concurrently npm:build:server npm:build:client",
+    "watch": "npm run clean && npm install && concurrently npm:watch:server npm:watch:client npm:watch:run",
+    "build:server": "ncc build server/src/main.ts -o dist",
+    "watch:server": "ncc build server/src/main.ts -o dist -w",
+    "build:client": "cd client && ng build --no-progress --configuration=production",
+    "watch:client": "cd client && ng build --watch",
+    "watch:run": "cd dist && wait-on index.js www/index.html && nodemon ."
   },
   "private": true,
   "dependencies": {
@@ -29,6 +34,7 @@
     "safe-json-stringify": "1.2.0",
     "telnet-client": "1.2.11",
     "tslib": "1.10.0",
+    "wait-on": "5.2.0",
     "zone.js": "0.10.2"
   },
   "devDependencies": {
@@ -52,7 +58,10 @@
     "karma-coverage-istanbul-reporter": "2.1.0",
     "karma-jasmine": "2.0.1",
     "karma-jasmine-html-reporter": "1.4.2",
+    "mkdirp": "1.0.4",
+    "nodemon": "2.0.4",
     "protractor": "7.0.0",
+    "rimraf": "3.0.2",
     "ts-loader": "6.2.1",
     "ts-node": "8.3.0",
     "tslint": "5.18.0",

@@ -11,8 +11,7 @@ A docker container is available to host this application, and can be installed b
 ### Node.js
 If you have Node.js installed locally, you can run the application by doing the following:
 1. Clone or download this repo into a folder.
-2. Run `npm run build` to build the application.
-3. Run `npm start` to run the application.
+2. Run `npm start` to build and run the application.
 
 ### Manually
 Running `npm run build`, will compile the source into `./dist`.
@@ -58,3 +57,8 @@ the change in [imperative mood](https://chris.beams.io/posts/git-commit/#imperat
 - **chore** - Maintenance or cleanup. Example: `chore: update dependency versions`
 - **refactor** - Nonfunctional changes. Example: `refactor: remove unused variable`
 - **docs** - Changes to documentation. Example: `docs: add example code`
+
+### Local NPM Commands
+- `npm run build` - Builds the application locally to the `./dist` folder
+- `npm run start` - Builds and runs the application locally
+- `npm run watch` - Builds and runs the application locally, and rebuilds on file changes
