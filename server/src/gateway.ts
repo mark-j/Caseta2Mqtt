@@ -56,7 +56,7 @@ export class Gateway {
       device = await this._configStorage.addDeviceAsync(smartBridge.ipAddress, event.deviceId, event.deviceType);
     }
 
-    if (!config.mqtt) {
+    if (!config.mqtt || !this._mqttClient) {
       return;
     }
 
