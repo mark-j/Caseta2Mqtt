@@ -7,6 +7,7 @@ import { QoS, AsyncMqttClient, connectAsync } from "async-mqtt";
 
 export class Gateway {
   private _mqttClient: AsyncMqttClient;
+  private _lastTopicValues: { [topic: string] : string; } = {};
   private _activeCasetaPumps: ConnectionPump[] = [];
   private _running = false;
 
@@ -42,6 +43,7 @@ export class Gateway {
       this._mqttClient.end();
     }
 
+    this._lastTopicValues = {};
     this._mqttClient = await connectAsync(`${config.mqtt.host}:${config.mqtt.port}`, {
       username: config.mqtt.username,
       password: config.mqtt.password
@@ -60,11 +62,17 @@ export class Gateway {
       return;
     }
 
-    const mqttPath = device.room
+    const messageBody = event.value.toString();
+    const messageTopic = device.room
       ? `casetas/${device.room}/${device.name}/${event.property}`
       : `casetas/${device.name}/${event.property}`;
 
-    this._mqttClient.publish(mqttPath, event.value.toString(), {
+    if (this._lastTopicValues[messageTopic] === messageBody) {
+      return;
+    }
+
+    this._lastTopicValues[messageTopic] = messageBody;
+    this._mqttClient.publish(messageTopic, messageBody, {
       qos: <QoS>config.mqtt.qos,
       retain: config.mqtt.retain
     });
