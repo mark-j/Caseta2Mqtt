@@ -10,7 +10,7 @@
     "watch:server": "ncc build server/src/main.ts -o dist -w",
     "build:client": "cd client && ng build --no-progress --configuration=production",
     "watch:client": "cd client && ng build --watch",
-    "watch:run": "cd dist && wait-on index.js www/index.html && nodemon ."
+    "watch:run": "cd dist && wait-on index.js www/index.html && nodemon --ignore data/* ."
   },
   "private": true,
   "dependencies": {
