@@ -17,6 +17,10 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
       - name: Get dependencies
         run: npm install --no-save @commitlint/config-conventional @commitlint/config-conventional
       - name: Run commitlint
