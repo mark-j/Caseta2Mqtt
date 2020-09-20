@@ -1,3 +1,19 @@
+# [0.3.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.3...v0.3.0) (2020-09-20)
+
+
+### Bug Fixes
+
+* don't publish before connection ([20df80e](https://github.com/mark-j/Caseta2Mqtt/commit/20df80e4f2c986f1ce068a115f55308a3f6c8e3c))
+* don't restart on data change ([d1ffc8a](https://github.com/mark-j/Caseta2Mqtt/commit/d1ffc8aaf5ef77fc377aced3bd6884c092038467))
+
+
+### Features
+
+* don't send duplicate messages ([b575f9b](https://github.com/mark-j/Caseta2Mqtt/commit/b575f9b2050ecfc263f861212df2337dedb0d803))
+* improve logging ([710e9b8](https://github.com/mark-j/Caseta2Mqtt/commit/710e9b8fd31c5423279e8091fc96f7c9f10359e2))
+
+
+
 ## [0.2.3](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.2...v0.2.3) (2020-08-14)
 
 
@@ -35,20 +51,6 @@
 ### Bug Fixes
 
 * correct diff error ([#11](https://github.com/mark-j/Caseta2Mqtt/issues/11)) ([9697b83](https://github.com/mark-j/Caseta2Mqtt/commit/9697b83d2346d8b3d38a18b6e62df05bd8db746e))
-
-
-
-## [0.1.1](https://github.com/mark-j/Caseta2Mqtt/compare/v0.1.0...v0.1.1) (2020-08-02)
-
-
-### Bug Fixes
-
-* update git diff ([#10](https://github.com/mark-j/Caseta2Mqtt/issues/10)) ([4526c41](https://github.com/mark-j/Caseta2Mqtt/commit/4526c4110393813519ea30591db45df373a7539f))
-
-
-### Features
-
-* add dev branch reset workflow ([#9](https://github.com/mark-j/Caseta2Mqtt/issues/9)) ([4265ce5](https://github.com/mark-j/Caseta2Mqtt/commit/4265ce53350743bc04d9bcb2021d39561bbc8f81)), closes [#8](https://github.com/mark-j/Caseta2Mqtt/issues/8) [#6](https://github.com/mark-j/Caseta2Mqtt/issues/6) [#7](https://github.com/mark-j/Caseta2Mqtt/issues/7)
 
 
 
