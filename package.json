@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "scripts": {
     "clean": "rimraf dist && mkdirp dist/data",
-    "start": "npm install && npm run clean && npm:build && cd dist && node .",
+    "start": "npm run build && cd dist && node .",
     "build": "npm install && npm run clean && concurrently npm:build:server npm:build:client",
     "watch": "npm install && npm run clean && concurrently npm:watch:server npm:watch:client npm:watch:run",
     "build:server": "ncc build server/src/main.ts -o dist",
