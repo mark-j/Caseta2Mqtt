@@ -1,0 +1,3 @@
+<div class="container" [ngClass]="{ open: isOpen }" (scroll)="updateScrollPosition()" (click)="toggleOpen()" #container>
+  <p *ngFor="let log of logs | async" #log>{{ log }}</p>
+</div>

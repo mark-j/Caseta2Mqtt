@@ -2,6 +2,7 @@ import fs = require('fs');
 import path = require('path');
 import { paramCase } from "param-case";
 import { EventEmitter } from 'events';
+import { Logger } from '../logger';
 import { ConfigModel } from './config-model';
 import { IntegrationReportModel } from './integration-report-model';
 import { SmartBridgeModel } from './smart-bridge-model';
@@ -14,7 +15,7 @@ export class ConfigStorage extends EventEmitter {
   private _config: ConfigModel;
   private _initialLoadPromise: Promise<void>;
 
-  constructor() {
+  constructor(private _logger: Logger) {
     super();
     this._initialLoadPromise = this._loadFromDiskAsync();
   }

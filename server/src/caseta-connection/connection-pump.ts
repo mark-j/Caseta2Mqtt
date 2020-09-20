@@ -1,3 +1,4 @@
+import { Logger } from "../logger";
 import { SmartBridgeConnection, ConnectionStatus, DeviceType, EventModel } from "./smart-bridge-connection";
 import { SmartBridgeModel } from "../config-storage/smart-bridge-model";
 import { EventEmitter } from "events";
@@ -10,7 +11,7 @@ export class ConnectionPump extends EventEmitter {
   private _lastHeartbeatDeviceId: number;
   private _cachedValues: { [deviceId: number]: string | number; } = { };
 
-  constructor(public smartBridge: SmartBridgeModel) {
+  constructor(public smartBridge: SmartBridgeModel, private _logger: Logger) {
     super();
   }
 
@@ -77,8 +78,8 @@ export class ConnectionPump extends EventEmitter {
 
   private _createNewConnection = () => {
     const newConnection = new SmartBridgeConnection(this.smartBridge.ipAddress);
-    newConnection.on('error', error => console.log('ERROR:', this.smartBridge.ipAddress, error));
-    newConnection.on('status', status => console.log('CONNECTION:', this.smartBridge.ipAddress, ConnectionStatus[status]));
+    newConnection.on('error', error => this._logger.error(`${this.smartBridge.ipAddress} - ${error}`));
+    newConnection.on('status', status => this._logger.info(`${this.smartBridge.ipAddress} - ${ConnectionStatus[status]}`));
     newConnection.on('event', event => this._updateValueFromEvent(event));
     return newConnection;
   }

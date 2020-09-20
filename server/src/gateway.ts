@@ -1,3 +1,4 @@
+import { Logger } from "./logger";
 import { ConfigStorage } from "./config-storage/config-storage";
 import { ConnectionPump } from "./caseta-connection/connection-pump";
 import { SmartBridgeModel } from "./config-storage/smart-bridge-model";
@@ -11,7 +12,7 @@ export class Gateway {
   private _activeCasetaPumps: ConnectionPump[] = [];
   private _running = false;
 
-  constructor(private _configStorage: ConfigStorage) {
+  constructor(private _configStorage: ConfigStorage, private _logger: Logger) {
     _configStorage.on('update', this._handleConfigUpdate);
   }
 
@@ -24,14 +25,14 @@ export class Gateway {
     this._running = false;
     this._activeCasetaPumps.forEach(p => p.stop());
     this._activeCasetaPumps = [];
-    console.log('Gateway stopped');
+    this._logger.info('Gateway stopped');
   }
 
   private _startAsync = async () => {
     const config = await this._configStorage.getLatestConfigAsync();
     await this._initializeBrokerAsync(config);
     config.smartBridges.forEach(this._startPump);
-    console.log('Gateway started');
+    this._logger.info('Gateway started');
   }
 
   private _initializeBrokerAsync = async (config: ConfigModel) => {
@@ -58,6 +59,15 @@ export class Gateway {
       device = await this._configStorage.addDeviceAsync(smartBridge.ipAddress, event.deviceId, event.deviceType);
     }
 
+    let deviceDescription = event.deviceId.toString();
+    if (device) {
+      deviceDescription += device.room
+        ? ` (${device.room}/${device.name})`
+        : ` (${device.name})`;
+    }
+
+    this._logger.trace(`Device ${deviceDescription} updated: ${event.property} = ${event.value}`);
+
     if (!config.mqtt || !this._mqttClient) {
       return;
     }
@@ -68,8 +78,11 @@ export class Gateway {
       : `casetas/${device.name}/${event.property}`;
 
     if (this._lastTopicValues[messageTopic] === messageBody) {
+      this._logger.debug(`Not broadcasting, because ${event.property} was already set to ${event.value} on ${deviceDescription} previously.`);
       return;
     }
+
+    this._logger.trace(`MQTT broadcast: ${messageTopic} = ${messageBody}`);
 
     this._lastTopicValues[messageTopic] = messageBody;
     this._mqttClient.publish(messageTopic, messageBody, {
@@ -79,7 +92,7 @@ export class Gateway {
   }
 
   private _startPump = (smartBridge: SmartBridgeModel) => {
-    const pump = new ConnectionPump(smartBridge);
+    const pump = new ConnectionPump(smartBridge, this._logger);
     pump.on('event', event => this._processEventAsync(event, smartBridge));
     this._activeCasetaPumps.push(pump);
     pump.start();

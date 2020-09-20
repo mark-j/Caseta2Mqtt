@@ -1,11 +1,12 @@
-import * as express from "express";
+import path = require("path");
 import { Request, Response } from "express";
 import { Server } from "http";
-import path = require("path");
+import { Logger } from "../logger";
+import { ConfigStorage } from "../config-storage/config-storage";
+import { DataController } from "./data-controller";
+import * as express from "express";
 import expressWs = require("express-ws");
 import bodyParser = require('body-parser');
-import { DataController } from "./data-controller";
-import { ConfigStorage } from "../config-storage/config-storage";
 
 const webUiPort = 4600;
 
@@ -15,7 +16,7 @@ export class WebServer {
   private _runningServer: Server;
   private _isRunning: boolean;
 
-  constructor(private _configStorage: ConfigStorage) {
+  constructor(private _configStorage: ConfigStorage, private _logger: Logger) {
     this._webSocket = expressWs(express());
     this._app = this._webSocket.app;
     this._wireupMiddleware(this._app, this._webSocket);
@@ -27,7 +28,7 @@ export class WebServer {
 
     this._isRunning = true;
     this._runningServer = this._app.listen(webUiPort, () => {
-      console.log(`Server started at http://localhost:${webUiPort}`);
+      this._logger.info(`Server started at http://localhost:${webUiPort}`);
     });
   }
 
@@ -37,12 +38,12 @@ export class WebServer {
 
     this._isRunning = false;
     this._runningServer.close(() => {
-      console.log('Server stopped')
+      this._logger.info('Server stopped')
     });
   }
 
   private _wireupMiddleware(server: expressWs.Application, webSocket: expressWs.Instance) {
-    const dataController = new DataController(this._configStorage, webSocket);
+    const dataController = new DataController(this._configStorage, webSocket, this._logger);
     const staticFolder = path.join(__dirname, 'www');
     server.ws('/websocket', dataController.webSocketHandler);
     server.use(<any>bodyParser.json());

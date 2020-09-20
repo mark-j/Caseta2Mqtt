@@ -20,6 +20,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { GlobalErrorHandler } from './error-handler';
 import { AppComponent } from './components/app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LogPanelComponent } from './components/log-panel/log-panel.component';
 import { BridgeDetailsComponent } from './components/bridge-details/bridge-details.component';
 import { AddBridgeComponent } from './components/navbar/add-bridge/add-bridge.component';
 import { EditDeviceComponent } from './components/bridge-details/edit-device/edit-device.component';
@@ -30,6 +31,7 @@ import { MqttSettingsComponent } from './components/navbar/mqtt-settings/mqtt-se
     AppComponent,
     NavbarComponent,
     BridgeDetailsComponent,
+    LogPanelComponent,
     AddBridgeComponent,
     EditDeviceComponent,
     MqttSettingsComponent

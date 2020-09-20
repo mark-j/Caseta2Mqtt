@@ -23,7 +23,13 @@ header {
   }
 
   main {
+    display: flex;
+    flex-direction: column;
     flex: 1;
     overflow-y: scroll;
+
+    c2m-bridge-details {
+      flex: 1;
+    }
   }
 }

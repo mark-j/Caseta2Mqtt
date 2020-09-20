@@ -1,0 +1,23 @@
+@import '~@angular/material/theming';
+$lineMargin: 5px;
+$lineHeight: 16.67px;
+
+.container {
+  @include mat-elevation(2);
+  height: $lineHeight + $lineMargin * 2;
+  background-color: whitesmoke;
+  transition: ease 0.15s;
+  overflow: hidden;
+  cursor: pointer;
+
+  &.open {
+    height: ($lineHeight + $lineMargin) * 8 + $lineMargin;
+    overflow: auto;
+  }
+
+  p {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    margin: $lineMargin;
+  }
+}
