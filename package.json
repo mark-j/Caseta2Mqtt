@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "scripts": {
     "clean": "rimraf dist && mkdirp dist/data",
-    "start": "npm install && npm run clean && npm:build && cd dist && node .",
+    "start": "npm run build && cd dist && node .",
     "build": "npm install && npm run clean && concurrently npm:build:server npm:build:client",
     "watch": "npm install && npm run clean && concurrently npm:watch:server npm:watch:client npm:watch:run",
     "build:server": "ncc build server/src/main.ts -o dist",
@@ -32,7 +32,7 @@
     "param-case": "3.0.3",
     "rxjs": "6.5.4",
     "safe-json-stringify": "1.2.0",
-    "telnet-client": "1.2.11",
+    "telnet-client": "1.4.6",
     "time-stamp": "^2.2.0",
     "tslib": "1.10.0",
     "wait-on": "5.2.0",
