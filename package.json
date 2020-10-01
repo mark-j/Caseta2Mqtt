@@ -36,7 +36,7 @@
     "time-stamp": "^2.2.0",
     "tslib": "1.10.0",
     "wait-on": "5.2.0",
-    "zone.js": "0.10.2"
+    "zone.js": "0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.901.9",
