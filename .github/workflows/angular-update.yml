@@ -18,6 +18,7 @@ jobs:
         with:
           repo-token: ${{ secrets.BOT_TOKEN }}
           base-branch: main
+          project-path: client
           pr-title: "chore: update angular version"
           pr-reviewers: mark-j
           pr-assignees: marks-ci-bot
