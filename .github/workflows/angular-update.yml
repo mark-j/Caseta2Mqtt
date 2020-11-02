@@ -1,0 +1,23 @@
+name: Angular Updates
+
+on:
+  schedule:
+    - cron: "* * * * *"
+
+jobs:
+  bump-version:
+    name: Angular
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Update Angular if necessary
+        uses: tinesoft/ngx-uptodate@master
+        with:
+          repo-token: ${{ secrets.BOT_TOKEN }}
+          base-branch: main
+          pr-title: "chore: update angular version"
+          pr-reviewers: mark-j
+          pr-assignees: marks-ci-bot
