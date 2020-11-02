@@ -6,8 +6,10 @@ updates:
     schedule:
       interval: monthly
     commit-message:
-      prefix: "ci"
+      prefix: "chore"
     reviewers:
       - mark-j
     assignees:
       - marks-ci-bot
+    ignore:
+      - dependency-name: "@angular*"

@@ -1,3 +1,12 @@
+# [0.4.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.3.0...v0.4.0) (2020-11-02)
+
+
+### Features
+
+* add debug logging ([9050d5e](https://github.com/mark-j/Caseta2Mqtt/commit/9050d5e06a583ea5f21213ec0990e5c85c5c7662))
+
+
+
 # [0.3.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.3...v0.3.0) (2020-09-20)
 
 
@@ -42,15 +51,6 @@
 * include lock file ([83e704f](https://github.com/mark-j/Caseta2Mqtt/commit/83e704ff1ebbe19f2c73336e48e4b937e03ce20d))
 * new devices without mqtt ([d5ea624](https://github.com/mark-j/Caseta2Mqtt/commit/d5ea6242038db3131ac4c184755ca52d92217221))
 * optimize dependencies ([#17](https://github.com/mark-j/Caseta2Mqtt/issues/17)) ([b0d10e6](https://github.com/mark-j/Caseta2Mqtt/commit/b0d10e6505de86f5de1a9a93982043e16c5dc376))
-
-
-
-## [0.1.2](https://github.com/mark-j/Caseta2Mqtt/compare/v0.1.1...v0.1.2) (2020-08-02)
-
-
-### Bug Fixes
-
-* correct diff error ([#11](https://github.com/mark-j/Caseta2Mqtt/issues/11)) ([9697b83](https://github.com/mark-j/Caseta2Mqtt/commit/9697b83d2346d8b3d38a18b6e62df05bd8db746e))
 
 
 
