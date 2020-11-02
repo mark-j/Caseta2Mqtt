@@ -9,6 +9,8 @@ jobs:
     name: Angular Update
     runs-on: ubuntu-latest
     steps:
+      - name: Install Angular CLI
+        run: npm install -g @angular/cli
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
