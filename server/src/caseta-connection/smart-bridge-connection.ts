@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import { Duplex } from "stream";
+import { Logger } from "../logger";
 const Telnet = require("telnet-client");
 
 export enum ConnectionStatus {
@@ -29,7 +30,7 @@ export class SmartBridgeConnection extends EventEmitter {
 
   public status = ConnectionStatus.Connecting;
 
-  constructor(private _ipAddress: string) {
+  constructor(private _ipAddress: string, private _logger: Logger) {
     super();
     this._telnetConnection.on('end', this._handleConnectionDropAsync);
     this._telnetConnection.on('close', this._handleConnectionDropAsync);
@@ -117,6 +118,8 @@ export class SmartBridgeConnection extends EventEmitter {
   }
 
   private _processMessage = (message: string) => {
+    this._logger.debug(`${this._ipAddress}: ${message}`)
+
     const match = /~(?<type>[A-Z]+)(,(?<arguments>.*))+/g.exec(message);
     if (!match) return;
 
@@ -138,7 +141,7 @@ export class SmartBridgeConnection extends EventEmitter {
     }
 
     if (messageType === 'ERROR') {
-      this.emit('error', new Error(`Smart Bridge Error: ${parameters[0]}`));
+      this.emit('error', message);
     }
   }
 
