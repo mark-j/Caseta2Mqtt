@@ -11,6 +11,5 @@ updates:
       - mark-j
     assignees:
       - marks-ci-bot
-    ignored_updates:
-      - match:
-          dependency_name: "@angular*"
+    ignore:
+      - dependency-name: "@angular*"
