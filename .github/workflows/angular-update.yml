@@ -12,7 +12,13 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.ref }}
+          ref: main
+      - name: Set-up node
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install npm modules
+        run: npm ci
       - name: Update Angular if necessary
         uses: tinesoft/ngx-uptodate@master
         with:
