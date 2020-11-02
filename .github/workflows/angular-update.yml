@@ -6,7 +6,7 @@ on:
 
 jobs:
   bump-version:
-    name: Angular
+    name: Angular Update
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
@@ -19,6 +19,8 @@ jobs:
           node-version: 12
       - name: Install npm modules
         run: npm ci
+      - name: Install dependencies
+        run: npm install @actions/core
       - name: Update Angular if necessary
         uses: tinesoft/ngx-uptodate@master
         with:
