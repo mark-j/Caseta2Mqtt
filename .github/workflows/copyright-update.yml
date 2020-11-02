@@ -5,7 +5,7 @@ on:
     - cron: "0 3 1 1 *"
 
 jobs:
-  bump-version:
+  bump-year:
     name: License File
     runs-on: ubuntu-latest
     steps:
