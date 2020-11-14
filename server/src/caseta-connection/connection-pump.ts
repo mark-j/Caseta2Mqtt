@@ -77,7 +77,7 @@ export class ConnectionPump extends EventEmitter {
   }
 
   private _createNewConnection = () => {
-    const newConnection = new SmartBridgeConnection(this.smartBridge.ipAddress);
+    const newConnection = new SmartBridgeConnection(this.smartBridge.ipAddress, this._logger);
     newConnection.on('error', error => this._logger.error(`${this.smartBridge.ipAddress} - ${error}`));
     newConnection.on('status', status => this._logger.info(`${this.smartBridge.ipAddress} - ${ConnectionStatus[status]}`));
     newConnection.on('event', event => this._updateValueFromEvent(event));
