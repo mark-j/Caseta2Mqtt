@@ -9,11 +9,17 @@
       <mat-error *ngIf="editDeviceForm.controls['deviceNameControl'].hasError('required')">
         Name is <strong>required</strong>.
       </mat-error>
+      <mat-error *ngIf="editDeviceForm.controls['deviceNameControl'].hasError('pattern')">
+        Name must be alphanumeric or one of the following characters: <strong>-</strong> <strong>.</strong> <strong>_</strong> <strong>~</strong>.
+      </mat-error>
     </mat-form-field>
     <br>
     <mat-form-field>
       <mat-label>Room</mat-label>
       <input matInput [formControl]="editDeviceForm.controls['roomNameControl']">
+      <mat-error *ngIf="editDeviceForm.controls['roomNameControl'].hasError('pattern')">
+        Room must be alphanumeric or one of the following characters: <strong>-</strong> <strong>.</strong> <strong>_</strong> <strong>~</strong>.
+      </mat-error>
     </mat-form-field>
   </form>
 </div>

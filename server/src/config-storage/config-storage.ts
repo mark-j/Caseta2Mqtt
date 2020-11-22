@@ -7,7 +7,9 @@ import { ConfigModel } from './config-model';
 import { IntegrationReportModel } from './integration-report-model';
 import { SmartBridgeModel } from './smart-bridge-model';
 import { DeviceType } from '../caseta-connection/smart-bridge-connection';
+import { CasetaDeviceModel } from './caseta-device-model';
 
+const invalidTopicCharacterPattern = new RegExp(`[^A-Za-z\d\-~._]`);
 const configFilePath = path.join(__dirname, 'data/config.json');
 const configFileEncoding = 'utf8';
 
@@ -115,8 +117,16 @@ export class ConfigStorage extends EventEmitter {
         fs.readFile(configFilePath, configFileEncoding, (error, data) => error ? reject(error) : resolve(data))
       );
       this._config = JSON.parse(fileContents);
+      this._config.smartBridges.forEach(s => s.devices && s.devices.forEach(this._stripInvalidCharacters))
     } else {
       this._config = { smartBridges: [] }
+    }
+  }
+
+  private _stripInvalidCharacters = (device: CasetaDeviceModel) => {
+    device.name = device.name.replace(invalidTopicCharacterPattern, '-');
+    if (device.room) {
+      device.room = device.room.replace(invalidTopicCharacterPattern, '-');
     }
   }
 

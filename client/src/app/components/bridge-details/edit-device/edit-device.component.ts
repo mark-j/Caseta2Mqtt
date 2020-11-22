@@ -3,7 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DataService } from 'src/app/services/data/data.service';
-import { SmartBridgeModel } from 'src/app/services/data/smart-bridge.model';
+
+const topicSegmentPattern = `[A-Za-z\d\-~._]`;
 
 @Component({
   selector: 'c2m-edit-device',
@@ -33,8 +34,8 @@ export class EditDeviceComponent {
   }
 
   editDeviceForm = new FormGroup({
-    deviceNameControl: new FormControl('', [ Validators.required ]),
-    roomNameControl: new FormControl('')
+    deviceNameControl: new FormControl('', [ Validators.required, Validators.pattern(topicSegmentPattern) ]),
+    roomNameControl: new FormControl('', [ Validators.pattern(topicSegmentPattern) ])
   });
 
   okClickAsync = async () => {
