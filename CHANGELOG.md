@@ -1,3 +1,14 @@
+# [0.5.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.4.0...v0.5.0) (2020-11-22)
+
+
+### Features
+
+* bridge MQTT set commands ([cc49c27](https://github.com/mark-j/Caseta2Mqtt/commit/cc49c2742dccf50facbebac6bd0db1e9d3a0efad))
+* clarify delete messaging ([e674923](https://github.com/mark-j/Caseta2Mqtt/commit/e6749237b9289d42fe6eb6189f6a27794b74f6c5))
+* limit characters for MQTT topic ([3cd31b6](https://github.com/mark-j/Caseta2Mqtt/commit/3cd31b69073e99512180916adef50371d37ab129))
+
+
+
 # [0.4.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.3.0...v0.4.0) (2020-11-02)
 
 
@@ -38,19 +49,6 @@
 ### Bug Fixes
 
 * clean pasted json ([3e5f2e6](https://github.com/mark-j/Caseta2Mqtt/commit/3e5f2e6235e81e266a2b277adb809a875bfbad26))
-
-
-
-## [0.2.1](https://github.com/mark-j/Caseta2Mqtt/compare/v0.1.2...v0.2.1) (2020-08-09)
-
-
-### Bug Fixes
-
-* correct permissions ([#16](https://github.com/mark-j/Caseta2Mqtt/issues/16)) ([ab83870](https://github.com/mark-j/Caseta2Mqtt/commit/ab83870b7d81d1d355c69fdd0e65328913c18e57))
-* docker improvements ([#20](https://github.com/mark-j/Caseta2Mqtt/issues/20)) ([5c2abdc](https://github.com/mark-j/Caseta2Mqtt/commit/5c2abdc5ac530b91c7138c5c4d451ca6f4cf7640))
-* include lock file ([83e704f](https://github.com/mark-j/Caseta2Mqtt/commit/83e704ff1ebbe19f2c73336e48e4b937e03ce20d))
-* new devices without mqtt ([d5ea624](https://github.com/mark-j/Caseta2Mqtt/commit/d5ea6242038db3131ac4c184755ca52d92217221))
-* optimize dependencies ([#17](https://github.com/mark-j/Caseta2Mqtt/issues/17)) ([b0d10e6](https://github.com/mark-j/Caseta2Mqtt/commit/b0d10e6505de86f5de1a9a93982043e16c5dc376))
 
 
 
