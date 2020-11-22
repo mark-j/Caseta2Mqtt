@@ -58,7 +58,7 @@ export class BridgeDetailsComponent implements OnInit {
 
   public deleteClickAsync = async () => {
     const ipAddress = this._ipAddressSubject.value;
-    if (!ipAddress || !confirm(`This will delete the Smart Bridge at ${ipAddress} and all related data.`)) {
+    if (!ipAddress || !confirm(`This will disconnect the Smart Bridge at ${ipAddress} from the gateway, and delete any related data.`)) {
       return;
     }
 
