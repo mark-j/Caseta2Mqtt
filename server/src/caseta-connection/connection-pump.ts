@@ -23,6 +23,14 @@ export class ConnectionPump extends EventEmitter {
     this.smartBridge = updatedConfig;
   }
 
+  sendDeviceCommand = (deviceId: number, property: string, value: string) => {
+    if (!this._activeConnection || this._activeConnection.status !== ConnectionStatus.Connected) {
+      return;
+    }
+
+    this._activeConnection.sendDeviceCommand(deviceId, property, value);
+  }
+
   start = () => {
     this._cancellationToken = { signalled: false };
     setTimeout(() => this._pumpAsync(this._cancellationToken), PumpIntervalMilliseconds);

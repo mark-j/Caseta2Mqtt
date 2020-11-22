@@ -44,6 +44,12 @@ export class SmartBridgeConnection extends EventEmitter {
     this._telnetShell.write(`?OUTPUT,${deviceId},1\r\n`, 'utf-8');
   }
 
+  public sendDeviceCommand = (deviceId: number, property: string, value: string) => {
+    const attributeNumber = this.mapper.getDeviceAttributeNumber(property);
+    const encodedValue = this.mapper.encodeDeviceAttributeValue(attributeNumber, value);
+    this._telnetShell.write(`#OUTPUT,${deviceId},${attributeNumber},${encodedValue}\r\n`, 'utf-8');
+  }
+
   public closeAsync = async () => {
     this._updateStatus(ConnectionStatus.Closing);
     await this._swallowErrorsAsync(async () => await this._telnetConnection.end());
@@ -79,24 +85,6 @@ export class SmartBridgeConnection extends EventEmitter {
     this._initialPromptTimeout = setTimeout(() => {
       this._handleErrorAsync(new Error('Did not receive expected response from Smart Bridge.'));
     }, 60000);
-  }
-
-  // private _requestDeviceStatus = (deviceId: number, property: string) => {
-  //   for (const propertyNumber in this._devicePropertyMap)
-  //   if (this._devicePropertyMap[propertyNumber] === property) {
-  //     this._telnetShell.write(`?OUTPUT,${deviceId},${propertyNumber}\r\n`, 'utf-8');
-  //   }
-  // }
-
-  // private _setDeviceLevel = (deviceId: number, property: string, level: number) => {
-  //   for (const propertyNumber in this._devicePropertyMap)
-  //   if (this._devicePropertyMap[propertyNumber] === property) {
-  //     this._telnetShell.write(`#OUTPUT,${deviceId},1,${level}\r\n`, 'utf-8');
-  //   }
-  // }
-
-  private _sendCommand = (command: string, parameters: any[]) => {
-    this._telnetShell.write(`?${command},${parameters.join(',')}\r\n`, 'utf-8');
   }
 
   private _handleIncomingData = (data: Buffer) => {

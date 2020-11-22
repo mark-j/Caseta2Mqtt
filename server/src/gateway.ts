@@ -4,7 +4,9 @@ import { ConnectionPump } from "./caseta-connection/connection-pump";
 import { SmartBridgeModel } from "./config-storage/smart-bridge-model";
 import { ConfigModel } from "./config-storage/config-model";
 import { EventModel } from "./caseta-connection/smart-bridge-connection";
-import { QoS, AsyncMqttClient, connectAsync } from "async-mqtt";
+import { QoS, AsyncMqttClient, connectAsync, Packet } from "async-mqtt";
+
+const mqttTopicPattern = new RegExp(`^casetas/((?<room>[A-Za-z\d\-~._]+)/)?(?<name>[A-Za-z\d\-~._]+)/(?<property>[A-Za-z\d\-~._]+)/set$`);
 
 export class Gateway {
   private _mqttClient: AsyncMqttClient;
@@ -44,11 +46,31 @@ export class Gateway {
       this._mqttClient.end();
     }
 
-    this._lastTopicValues = {};
-    this._mqttClient = await connectAsync(`${config.mqtt.host}:${config.mqtt.port}`, {
+    const client = this._mqttClient = await connectAsync(`${config.mqtt.host}:${config.mqtt.port}`, {
       username: config.mqtt.username,
       password: config.mqtt.password
     });
+
+    client.subscribe('casetas/+/+/+/set');
+    client.subscribe('casetas/+/+/+/+/set');
+    client.on('message', this._processMessageAsync);
+  }
+
+  private _processMessageAsync = async (topic: string, payload: Buffer, packet: Packet) => {
+    const value = payload.toString();
+    this._logger.trace(`MQTT received: ${topic} = ${value}`)
+
+    const match = mqttTopicPattern.exec(topic);
+    if (!match || !match.groups) {
+      this._logger.debug(`Ignoring message on topic: ${topic}`);
+      return;
+    }
+
+    this._activeCasetaPumps.forEach(pump => pump.smartBridge.devices && pump.smartBridge.devices.forEach(device => {
+      if (device.name === match.groups.name && device.room === match.groups.room) {
+        pump.sendDeviceCommand(device.id, match.groups.property, value.trim())
+      }
+    }));
   }
 
   private _processEventAsync = async (event: EventModel, smartBridge: SmartBridgeModel) => {
