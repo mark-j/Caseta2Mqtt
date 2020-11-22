@@ -142,7 +142,7 @@ export class ConfigStorage extends EventEmitter {
 
       smartBridge.devices.push({
         id: device.ID,
-        type: DeviceType.Control,
+        type: DeviceType.ButtonOrSensor,
         name: paramCase(device.Name || `device-${device.ID}`),
         room: paramCase(device.Area && device.Area.Name || undefined)
       });
@@ -151,7 +151,7 @@ export class ConfigStorage extends EventEmitter {
     integrationReport.LIPIdList.Zones && integrationReport.LIPIdList.Zones.forEach(zone => {
       smartBridge.devices.push({
         id: zone.ID,
-        type: DeviceType.State,
+        type: DeviceType.ControllableDevice,
         name: paramCase(zone.Name || `device-${zone.ID}`),
         room: paramCase(zone.Area && zone.Area.Name || undefined)
       });

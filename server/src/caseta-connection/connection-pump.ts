@@ -39,7 +39,7 @@ export class ConnectionPump extends EventEmitter {
     }
 
     const deviceIds = this.smartBridge.devices && this.smartBridge.devices
-      .filter(d => d.type === DeviceType.State)
+      .filter(d => d.type === DeviceType.ControllableDevice)
       .map(d => d.id)
       .sort((a, b) => a - b)
       || [];

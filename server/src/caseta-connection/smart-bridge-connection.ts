@@ -1,6 +1,7 @@
 import { EventEmitter } from "events";
 import { Duplex } from "stream";
 import { Logger } from "../logger";
+import { Mapper } from "./mapper";
 const Telnet = require("telnet-client");
 
 export enum ConnectionStatus {
@@ -12,8 +13,8 @@ export enum ConnectionStatus {
 }
 
 export enum DeviceType {
-  Control = 1,
-  State = 2
+  ButtonOrSensor = 1,
+  ControllableDevice = 2
 }
 
 export interface EventModel {
@@ -24,6 +25,7 @@ export interface EventModel {
 }
 
 export class SmartBridgeConnection extends EventEmitter {
+  private mapper = new Mapper();
   private _telnetConnection = new Telnet();
   private _telnetShell: Duplex;
   private _initialPromptTimeout = null;
@@ -128,16 +130,16 @@ export class SmartBridgeConnection extends EventEmitter {
 
     if (messageType === 'DEVICE') {
       const deviceId = parseInt(parameters[0]);
-      const property = this._getControlName(parseInt(parameters[1]));
-      const value = this._getControlValue(parseInt(parameters[2]));
-      this.emit('event', { deviceType: DeviceType.Control, deviceId, property, value });
+      const property = this.mapper.getButtonOrSensorName(parseInt(parameters[1]));
+      const value = this.mapper.parseButtonOrSensorValue(parseInt(parameters[2]));
+      this.emit('event', { deviceType: DeviceType.ButtonOrSensor, deviceId, property, value });
     }
 
     if (messageType === 'OUTPUT') {
       const deviceId = parseInt(parameters[0]);
-      const property = this._getStateName(parseInt(parameters[1]));
-      const value = this._getStateValue(parseInt(parameters[1]), parameters[2]);
-      this.emit('event', { deviceType: DeviceType.State, deviceId, property, value });
+      const property = this.mapper.getDeviceAttributeName(parseInt(parameters[1]));
+      const value = this.mapper.parseDeviceAttributeNumber(parseInt(parameters[1]), parameters[2]);
+      this.emit('event', { deviceType: DeviceType.ControllableDevice, deviceId, property, value });
     }
 
     if (messageType === 'ERROR') {
@@ -169,48 +171,6 @@ export class SmartBridgeConnection extends EventEmitter {
       await func();
     } catch {
       // gulp
-    }
-  }
-
-  private _getStateName = (number: number) => {
-    switch (number) {
-      case 1: return 'level';
-      case 2: return 'raising';
-      case 3: return 'lowering';
-      case 4: return 'stop';
-      case 8: return 'occupancy';
-      default: return `state-${number}`;
-    }
-  }
-
-  private _getStateValue = (stateNumber: number, rawValue: string) => {
-    switch (stateNumber) {
-      case 1: return parseFloat(rawValue);
-      case 8: return this._getControlValue(parseInt(rawValue));
-      default: return rawValue;
-    }
-  }
-
-  private _getControlName = (number: number) => {
-    switch (number) {
-      case 2: return 'on';
-      case 3: return 'favorite';
-      case 4: return 'off';
-      case 5: return 'up';
-      case 6: return 'down';
-      case 8: return 'button-1';
-      case 9: return 'button-2';
-      case 10: return 'button-3';
-      case 11: return 'button-4';
-      default: return `control-${number}`;
-    }
-  }
-
-  private _getControlValue = (number: number) => {
-    switch (number) {
-      case 3: return 'activated';
-      case 4: return 'deactivated';
-      default: return `state-${number}`;
     }
   }
 
