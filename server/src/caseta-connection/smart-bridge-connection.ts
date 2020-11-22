@@ -104,19 +104,12 @@ export class SmartBridgeConnection extends EventEmitter {
     if (this.status === ConnectionStatus.Connecting && message === 'GNET>') {
       clearTimeout(this._initialPromptTimeout);
       this._updateStatus(ConnectionStatus.Connected);
-      setTimeout(this._heartbeat);
       return;
     }
 
     if (this.status === ConnectionStatus.Connected) {
       this._processMessage(message);
     }
-  }
-
-  private _heartbeat = () => {
-    if (this.status !== ConnectionStatus.Connected) return;
-    this._sendCommand('SYSTEM', [10]);
-    setTimeout(this._heartbeat, 5000);
   }
 
   private _processMessage = (message: string) => {
