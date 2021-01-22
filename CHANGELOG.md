@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.5.0...v0.6.0) (2021-01-22)
+
+
+### Features
+
+* add e2e smoke test ([#44](https://github.com/mark-j/Caseta2Mqtt/issues/44)) ([ddc9c44](https://github.com/mark-j/Caseta2Mqtt/commit/ddc9c44fe0c7aabc2d0607b3ae6f4a667e44ecf4))
+
+
+
 # [0.5.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.4.0...v0.5.0) (2020-11-22)
 
 
@@ -40,15 +49,6 @@
 ### Bug Fixes
 
 * correct script sequence ([000d864](https://github.com/mark-j/Caseta2Mqtt/commit/000d864e9f6e03ed10f5c78410d2cbe544be7f8b))
-
-
-
-## [0.2.2](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.1...v0.2.2) (2020-08-14)
-
-
-### Bug Fixes
-
-* clean pasted json ([3e5f2e6](https://github.com/mark-j/Caseta2Mqtt/commit/3e5f2e6235e81e266a2b277adb809a875bfbad26))
 
 
 
