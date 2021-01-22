@@ -26,8 +26,13 @@ export class Logger extends EventEmitter {
     this._log('warn', message);
   }
 
-  public error = (message: string) => {
-    this._log('fail', message);
+  public error = (message: string, error: any = null) => {
+    let fullMessage = message;
+    if (typeof(error) === 'string') fullMessage += ': ' + error;
+    else if (error instanceof Error) fullMessage += ': ' + error.message;
+    else if (error) fullMessage += ': ' + JSON.stringify(error);
+
+    this._log('fail', fullMessage);
   }
 
   public getLogs = () => {
