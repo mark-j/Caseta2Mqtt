@@ -1,0 +1,53 @@
+{
+  "LIPIdList": {
+    "Devices": [
+      {
+        "Name": "Smart Bridge",
+        "ID": 1,
+        "Buttons": [
+          {
+            "Name": "Scene 1",
+            "Number": 1
+          },
+          {
+            "Name": "Scene 2",
+            "Number": 2
+          }
+        ]
+      },
+      {
+        "Name": "Pico Remote",
+        "ID": 2,
+        "Area": {
+          "Name": "Living Room"
+        },
+        "Buttons": [
+          {
+            "Number": 2
+          },
+          {
+            "Number": 3
+          },
+          {
+            "Number": 4
+          },
+          {
+            "Number": 5
+          },
+          {
+            "Number": 6
+          }
+        ]
+      }
+    ],
+    "Zones": [
+      {
+        "Name": "Floor Lamp",
+        "ID": 3,
+        "Area": {
+          "Name": "Office"
+        }
+      }
+    ]
+  }
+}
