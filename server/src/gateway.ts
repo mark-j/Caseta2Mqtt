@@ -4,13 +4,11 @@ import { ConnectionPump } from "./caseta-connection/connection-pump";
 import { SmartBridgeModel } from "./config-storage/smart-bridge-model";
 import { ConfigModel } from "./config-storage/config-model";
 import { EventModel } from "./caseta-connection/smart-bridge-connection";
-import { QoS, AsyncMqttClient, connectAsync, Packet } from "async-mqtt";
-
-const mqttTopicPattern = new RegExp(`^casetas/((?<room>[A-Za-z\d\-~._]+)/)?(?<name>[A-Za-z\d\-~._]+)/(?<property>[A-Za-z\d\-~._]+)/set$`);
+import { MqttConnection } from "./mqtt-connection/mqtt-connection";
+import { MessageModel } from "./mqtt-connection/message-model";
 
 export class Gateway {
-  private _mqttClient: AsyncMqttClient;
-  private _lastTopicValues: { [topic: string] : string; } = {};
+  private _mqttConnection: MqttConnection;
   private _activeCasetaPumps: ConnectionPump[] = [];
   private _running = false;
 
@@ -31,10 +29,15 @@ export class Gateway {
   }
 
   private _startAsync = async () => {
-    const config = await this._configStorage.getLatestConfigAsync();
-    await this._initializeBrokerAsync(config);
-    config.smartBridges.forEach(this._startPump);
-    this._logger.info('Gateway started');
+    try {
+      const config = await this._configStorage.getLatestConfigAsync();
+      await this._initializeBrokerAsync(config);
+      config.smartBridges.forEach(this._startPump);
+      this._logger.info('Gateway started');
+    } catch (error) {
+      this._running = false;
+      this._logger.error('Failed to start gateway', error);
+    }
   }
 
   private _initializeBrokerAsync = async (config: ConfigModel) => {
@@ -42,75 +45,58 @@ export class Gateway {
       return;
     }
 
-    if (this._mqttClient) {
-      this._mqttClient.end();
+    if (this._mqttConnection) {
+      this._mqttConnection.dispose();
     }
 
-    const client = this._mqttClient = await connectAsync(`${config.mqtt.host}:${config.mqtt.port}`, {
-      username: config.mqtt.username,
-      password: config.mqtt.password
-    });
-
-    client.subscribe('casetas/+/+/+/set');
-    client.subscribe('casetas/+/+/+/+/set');
-    client.on('message', this._processMessageAsync);
+    this._mqttConnection = new MqttConnection(config, this._logger);
+    this._mqttConnection.on('message', this._processMessage)
   }
 
-  private _processMessageAsync = async (topic: string, payload: Buffer, packet: Packet) => {
-    const value = payload.toString();
-    this._logger.trace(`MQTT received: ${topic} = ${value}`)
-
-    const match = mqttTopicPattern.exec(topic);
-    if (!match || !match.groups) {
-      this._logger.debug(`Ignoring message on topic: ${topic}`);
-      return;
+  private _processMessage = (message: MessageModel) => {
+    try {
+      this._activeCasetaPumps.forEach(pump => pump.smartBridge.devices && pump.smartBridge.devices.forEach(device => {
+        if (device.name === message.deviceName && device.room == message.roomName) {
+          pump.sendDeviceCommand(device.id, message.propertyName, message.payload)
+        }
+      }));
+    } catch (error) {
+      this._logger.error('Failure processing message', error);
     }
-
-    this._activeCasetaPumps.forEach(pump => pump.smartBridge.devices && pump.smartBridge.devices.forEach(device => {
-      if (device.name === match.groups.name && device.room === match.groups.room) {
-        pump.sendDeviceCommand(device.id, match.groups.property, value.trim())
-      }
-    }));
   }
 
   private _processEventAsync = async (event: EventModel, smartBridge: SmartBridgeModel) => {
-    const config = await this._configStorage.getLatestConfigAsync();
+    try {
+      const config = await this._configStorage.getLatestConfigAsync();
 
-    let device = smartBridge.devices.find(d => d.id === event.deviceId);
-    if (!device) {
-      device = await this._configStorage.addDeviceAsync(smartBridge.ipAddress, event.deviceId, event.deviceType);
+      let device = smartBridge.devices.find(d => d.id === event.deviceId);
+      if (!device) {
+        device = await this._configStorage.addDeviceAsync(smartBridge.ipAddress, event.deviceId, event.deviceType);
+      }
+
+      let deviceDescription = event.deviceId.toString();
+      if (device) {
+        deviceDescription += device.room
+          ? ` (${device.room}/${device.name})`
+          : ` (${device.name})`;
+      }
+
+      this._logger.trace(`Device ${deviceDescription} updated: ${event.property} = ${event.value}`);
+
+      if (!config.mqtt || !this._mqttConnection) {
+        return;
+      }
+
+      this._mqttConnection.publish({
+        deviceName: device.name,
+        roomName: device.room,
+        propertyName: event.property,
+        payload: event.value.toString()
+      })
+
+    } catch (error) {
+      this._logger.error('Failure processing event', error);
     }
-
-    let deviceDescription = event.deviceId.toString();
-    if (device) {
-      deviceDescription += device.room
-        ? ` (${device.room}/${device.name})`
-        : ` (${device.name})`;
-    }
-
-    this._logger.trace(`Device ${deviceDescription} updated: ${event.property} = ${event.value}`);
-
-    if (!config.mqtt || !this._mqttClient) {
-      return;
-    }
-
-    const messageBody = event.value.toString();
-    const messageTopic = device.room
-      ? `casetas/${device.room}/${device.name}/${event.property}`
-      : `casetas/${device.name}/${event.property}`;
-
-    if (this._lastTopicValues[messageTopic] === messageBody) {
-      this._logger.debug(`Not broadcasting, because ${event.property} was already set to ${event.value} on ${deviceDescription} previously.`);
-      return;
-    }
-
-    this._logger.trace(`MQTT broadcast: ${messageTopic} = ${messageBody}`);
-
-    this._lastTopicValues[messageTopic] = messageBody;
-    this._mqttClient.publish(messageTopic, messageBody, {
-      qos: <QoS>config.mqtt.qos,
-      retain: config.mqtt.retain
-    });
   }
 
   private _startPump = (smartBridge: SmartBridgeModel) => {

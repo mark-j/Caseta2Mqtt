@@ -81,7 +81,7 @@ export class DataController {
 
   private _handleNewBridgeRequestAsync = async (req: NewBridgeRequest, res: Response) => {
     try {
-      await this._configStorage.addSmartBridgeAsync(req.body.ipAddress, req.body.integrationReport && JSON.parse(req.body.integrationReport));
+      await this._configStorage.addSmartBridgeAsync(req.body.ipAddress, req.body.port, req.body.integrationReport && JSON.parse(req.body.integrationReport));
       res.json(await this._configStorage.getLatestConfigAsync());
     } catch (error) {
       res.status(500).json(this._parseErrorObject(error));
@@ -126,6 +126,7 @@ interface ModifyMqttRequest extends Request {
 interface NewBridgeRequest extends Request {
   body: {
     ipAddress: string;
+    port: number;
     integrationReport: string
   }
 }

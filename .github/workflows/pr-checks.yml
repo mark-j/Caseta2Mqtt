@@ -28,6 +28,8 @@ jobs:
       - name: Comment on failure
         if: failure() && !contains(github.event.pull_request.labels.*.name, 'fix-title')
         uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           msg: ":warning: The name of this pull request failed linting. Please fix it before merging."
           check_for_duplicate_msg: false
@@ -41,6 +43,8 @@ jobs:
       - name: Comment on success
         if: contains(github.event.pull_request.labels.*.name, 'fix-title') && !failure()
         uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
           msg: ":heavy_check_mark: The name of this pull request looks good now."
           check_for_duplicate_msg: false
@@ -60,3 +64,44 @@ jobs:
         uses: kentaro-m/auto-assign-action@v1.1.1
         with:
           repo-token: ${{secrets.BOT_TOKEN}}
+
+  e2e-test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Run e2e tests
+        run: npm run test
+      - name: Comment on failure
+        if: failure() && !contains(github.event.pull_request.labels.*.name, 'tests-failing')
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        with:
+          msg: ":warning: Automated smoke tests failed! Please review the results and fix the issue before merging."
+          check_for_duplicate_msg: false
+      - name: Label on failure
+        if: failure() && !contains(github.event.pull_request.labels.*.name, 'tests-failing')
+        uses: buildsville/add-remove-label@v1
+        with:
+          token: ${{secrets.BOT_TOKEN}}
+          label: tests-failing
+          type: add
+      - name: Comment on success
+        if: contains(github.event.pull_request.labels.*.name, 'tests-failing') && !failure()
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        with:
+          msg: ":heavy_check_mark: Automated smoke tests passed!"
+          check_for_duplicate_msg: false
+      - name: Remove label on success
+        if: contains(github.event.pull_request.labels.*.name, 'tests-failing') && !failure()
+        uses: buildsville/add-remove-label@v1
+        with:
+          token: ${{secrets.BOT_TOKEN}}
+          label: tests-failing
+          type: remove

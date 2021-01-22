@@ -96,3 +96,7 @@ typings/
 # System Files
 .DS_Store
 Thumbs.db
+
+# Cypress files
+cypress/videos
+cypress/screenshots

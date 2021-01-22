@@ -40,14 +40,14 @@ export class ConfigStorage extends EventEmitter {
     this.emit('update', this._config);
   }
 
-  public addSmartBridgeAsync = async (ipAddress: string, integrationReport: IntegrationReportModel) => {
+  public addSmartBridgeAsync = async (ipAddress: string, port: number, integrationReport: IntegrationReportModel) => {
     await this._initialLoadPromise;
 
     if (this._config.smartBridges.find(b => b.ipAddress === ipAddress)) {
       throw new Error(`Smart Bridge at '${ipAddress}' already exists.`);
     }
 
-    const newSmartBridge = { ipAddress, devices: [] };
+    const newSmartBridge = { ipAddress, port, devices: [] };
 
     if (integrationReport) {
       this._parseIntegrationReport(integrationReport, newSmartBridge);
@@ -62,6 +62,10 @@ export class ConfigStorage extends EventEmitter {
 
   public addDeviceAsync = async (ipAddress: string, deviceId: number, deviceType: DeviceType) => {
     await this._initialLoadPromise;
+
+    if (!deviceId) {
+      throw new Error(`Could not save new device. '${deviceId}' is not a valid device ID.`);
+    }
 
     const smartBridge = this._config.smartBridges.find(b => b.ipAddress === ipAddress);
     if (!smartBridge) {
@@ -82,6 +86,14 @@ export class ConfigStorage extends EventEmitter {
 
   public modifyDeviceAsync = async (ipAddress: string, deviceId: number, deviceName: string, deviceRoom: string) => {
     await this._initialLoadPromise;
+
+    if (!deviceId) {
+      throw new Error(`Could not modify device. '${deviceId}' is not a valid device ID.`);
+    }
+
+    if (!deviceName) {
+      throw new Error(`Could not modify device. '${deviceName}' is not a valid device name.`);
+    }
 
     const smartBridge = this._config.smartBridges.find(b => b.ipAddress === ipAddress);
     if (!smartBridge) {
@@ -117,7 +129,11 @@ export class ConfigStorage extends EventEmitter {
         fs.readFile(configFilePath, configFileEncoding, (error, data) => error ? reject(error) : resolve(data))
       );
       this._config = JSON.parse(fileContents);
-      this._config.smartBridges.forEach(s => s.devices && s.devices.forEach(this._stripInvalidCharacters))
+      this._config.smartBridges.forEach(s => {
+        s.port = s.port || 23;
+        s.devices = s.devices && s.devices.filter(d => d.id) || [];
+        s.devices.forEach(this._stripInvalidCharacters);
+      })
     } else {
       this._config = { smartBridges: [] }
     }

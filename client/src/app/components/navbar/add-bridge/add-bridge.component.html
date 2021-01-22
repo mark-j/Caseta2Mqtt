@@ -1,14 +1,14 @@
 <div mat-dialog-content>
-  <form [formGroup]="newBridgeForm">
+  <form id="new-bridge-form" [formGroup]="newBridgeForm">
     <p>
-      Enter the IP address of of your <strong matTooltip="The non-Pro Smart Bridge (L-BDG2-WH) is not supported.">Smart Bridge Pro</strong> here, and make sure <strong matTooltip="Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Telnet Support">Telnet Support</strong> is enabled.
+      Enter the IP address of of your <strong matTooltip="The non-Pro Smart Bridge (L-BDG2-WH) is not supported.">Smart Bridge Pro</strong> here.
     </p>
     <p>
-      You can also optionally copy and paste the <strong matTooltip="Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Send Integration Report">Integration Report</strong> here as well. Without it, you'll need to identify devices manually.
+      You can also (optionally) copy and paste the <strong matTooltip="Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Send Integration Report">Integration Report</strong> here as well. Without it, you'll need to identify devices manually.
     </p>
     <mat-form-field>
       <mat-label>IP Address</mat-label>
-      <input matInput [formControl]="newBridgeForm.controls['ipAddressControl']" placeholder="Ex. 192.168.86.99">
+      <input id="bridge-ip" matInput [formControl]="newBridgeForm.controls['ipAddressControl']" placeholder="Ex. 192.168.86.99">
       <mat-hint>Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Network Settings</mat-hint>
       <mat-error *ngIf="newBridgeForm.controls['ipAddressControl'].hasError('ip') && !newBridgeForm.controls['ipAddressControl'].hasError('required')">
         Please enter a valid IP address.
@@ -19,14 +19,32 @@
     </mat-form-field>
     <br>
     <mat-form-field>
+      <mat-label>Telnet Port</mat-label>
+      <input id="bridge-port" matInput [formControl]="newBridgeForm.controls['portControl']" placeholder="Ex. 23">
+      <mat-hint>This is almost always port 23. Make sure <strong>Telnet Support</strong> is enabled.<br>Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Telnet Support</mat-hint>
+      <mat-error *ngIf="newBridgeForm.controls['portControl'].hasError('min') && !newBridgeForm.controls['portControl'].hasError('required') && !newBridgeForm.controls['portControl'].hasError('pattern')">
+        Port can't be less than 1.
+      </mat-error>
+      <mat-error *ngIf="newBridgeForm.controls['portControl'].hasError('max') && !newBridgeForm.controls['portControl'].hasError('required') && !newBridgeForm.controls['portControl'].hasError('pattern')">
+        Port can't be higher than 65535.
+      </mat-error>
+      <mat-error *ngIf="newBridgeForm.controls['portControl'].hasError('pattern') && !newBridgeForm.controls['portControl'].hasError('required')">
+        Port must be a whole number between 1 and 65535.
+      </mat-error>
+      <mat-error *ngIf="newBridgeForm.controls['portControl'].hasError('required')">
+        Port is <strong>required</strong>.
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field>
       <mat-label>Integration Report</mat-label>
-      <textarea matInput [formControl]="newBridgeForm.controls['integrationReportControl']"></textarea>
+      <textarea id="integration-report" matInput [formControl]="newBridgeForm.controls['integrationReportControl']"></textarea>
       <mat-hint>Lutron App &gt; Settings &gt; Advanced &gt; Integration &gt; Send Integration Report</mat-hint>
     </mat-form-field>
   </form>
 
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" [disabled]="!newBridgeForm.valid" (click)="okClickAsync()">Add</button>
-  <button mat-raised-button (click)="cancelClick()">Cancel</button>
+  <button id="save-new-bridge" mat-raised-button color="primary" [disabled]="!newBridgeForm.valid" (click)="okClickAsync()">Add</button>
+  <button id="cancel-new-bridge" mat-raised-button (click)="cancelClick()">Cancel</button>
 </div>
