@@ -32,7 +32,7 @@ export class SmartBridgeConnection extends EventEmitter {
 
   public status = ConnectionStatus.Connecting;
 
-  constructor(private _ipAddress: string, private _logger: Logger) {
+  constructor(private _ipAddress: string, private _port: number, private _logger: Logger) {
     super();
     this._telnetConnection.on('end', this._handleConnectionDropAsync);
     this._telnetConnection.on('close', this._handleConnectionDropAsync);
@@ -60,7 +60,7 @@ export class SmartBridgeConnection extends EventEmitter {
   private _initiateConnectionAsync = async () => {
     const config = {
       host: this._ipAddress,
-      port: 23,
+      port: this._port,
       username: 'lutron',
       password: 'integration',
       timeout: 60000,

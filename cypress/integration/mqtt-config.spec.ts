@@ -27,6 +27,7 @@ context('MQTT Config Tests', () => {
                 cy.get('button#add-smart-bridge').click();
                 cy.get('form#new-bridge-form').should('be.visible');
                 cy.get('input#bridge-ip').clear().type('127.0.0.1');
+                cy.get('input#bridge-port').clear().type(mocks.smartBridgePort.toString());
                 cy.get('textarea#integration-report').clear().type(JSON.stringify(integrationReport), { parseSpecialCharSequences: false });
                 cy.get('button#save-new-bridge').click();
         

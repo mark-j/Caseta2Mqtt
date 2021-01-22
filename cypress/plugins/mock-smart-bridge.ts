@@ -1,5 +1,6 @@
 import { createServer } from "telnet";
 
+const getPort = require('get-port');
 const responses = {
     '?OUTPUT,3,1': '~OUTPUT,3,1,0.00',
     '?OUTPUT,5,1': '~OUTPUT,5,1,0.00'
@@ -11,7 +12,9 @@ export class MockSmartBridge {
     public static StartAsync(): Promise<MockSmartBridge> {
         return new Promise<MockSmartBridge>((resolve, reject) => {
             const server = createServer();
-            server.listen(23, () => resolve(new MockSmartBridge(23, server)))
+            getPort().then(port => {
+                server.listen(port, () => resolve(new MockSmartBridge(port, server)));
+            });
         });
     }
 

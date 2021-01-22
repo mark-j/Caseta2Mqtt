@@ -40,14 +40,14 @@ export class ConfigStorage extends EventEmitter {
     this.emit('update', this._config);
   }
 
-  public addSmartBridgeAsync = async (ipAddress: string, integrationReport: IntegrationReportModel) => {
+  public addSmartBridgeAsync = async (ipAddress: string, port: number, integrationReport: IntegrationReportModel) => {
     await this._initialLoadPromise;
 
     if (this._config.smartBridges.find(b => b.ipAddress === ipAddress)) {
       throw new Error(`Smart Bridge at '${ipAddress}' already exists.`);
     }
 
-    const newSmartBridge = { ipAddress, devices: [] };
+    const newSmartBridge = { ipAddress, port, devices: [] };
 
     if (integrationReport) {
       this._parseIntegrationReport(integrationReport, newSmartBridge);
@@ -130,6 +130,7 @@ export class ConfigStorage extends EventEmitter {
       );
       this._config = JSON.parse(fileContents);
       this._config.smartBridges.forEach(s => {
+        s.port = s.port || 23;
         s.devices = s.devices && s.devices.filter(d => d.id) || [];
         s.devices.forEach(this._stripInvalidCharacters);
       })

@@ -7,6 +7,8 @@ function ipAddressValidator(control: AbstractControl): { [key: string]: boolean 
   return /(\d{1,3}\.){3}\d{1,3}/.test(control.value) ? null : { ip: true };
 }
 
+const WholeNumberPattern = '^-?\\d+$';
+
 @Component({
   selector: 'c2m-add-bridge',
   templateUrl: './add-bridge.component.html',
@@ -17,16 +19,15 @@ export class AddBridgeComponent {
   constructor(public dialogRef: MatDialogRef<AddBridgeComponent>, private _http: HttpClient) { }
 
   newBridgeForm = new FormGroup({
-    ipAddressControl: new FormControl('', [
-      Validators.required,
-      ipAddressValidator,
-    ]),
+    ipAddressControl: new FormControl('', [ Validators.required, ipAddressValidator ]),
+    portControl: new FormControl('23', [ Validators.required, Validators.pattern(WholeNumberPattern), Validators.min(1), Validators.max(65535) ]),
     integrationReportControl: new FormControl('')
   });
 
   okClickAsync = async () => {
     const body = {
       ipAddress: this.newBridgeForm.controls.ipAddressControl.value,
+      port: parseInt(this.newBridgeForm.controls.portControl.value, 10),
       integrationReport: this.newBridgeForm.controls.integrationReportControl.value.replace(/\s/g, ' ')
     };
 
