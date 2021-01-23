@@ -4,7 +4,7 @@ import { ConfigModel } from "../config-storage/config-model";
 import { Logger } from "../logger";
 import { MessageModel } from "./message-model";
 
-const mqttTopicPattern = new RegExp(`^casetas/((?<room>[A-Za-z\d\-~._]+)/)?(?<name>[A-Za-z\d\-~._]+)/(?<property>[A-Za-z\d\-~._]+)/set$`);
+const mqttTopicPattern = new RegExp(`^casetas/((?<room>[A-Za-z\\d\\-~._]+)/)?(?<name>[A-Za-z\\d\\-~._]+)/(?<property>[A-Za-z\\d\\-~._]+)/set$`);
 
 enum ConnectionState {
     Initializing,
