@@ -1,3 +1,12 @@
+## [0.6.1](https://github.com/mark-j/Caseta2Mqtt/compare/v0.6.0...v0.6.1) (2021-01-23)
+
+
+### Bug Fixes
+
+* correctly escape topic pattern ([9771b93](https://github.com/mark-j/Caseta2Mqtt/commit/9771b93546144e8b79962d0dc9089335a7f1fabb))
+
+
+
 # [0.6.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.5.0...v0.6.0) (2021-01-22)
 
 
@@ -40,15 +49,6 @@
 
 * don't send duplicate messages ([b575f9b](https://github.com/mark-j/Caseta2Mqtt/commit/b575f9b2050ecfc263f861212df2337dedb0d803))
 * improve logging ([710e9b8](https://github.com/mark-j/Caseta2Mqtt/commit/710e9b8fd31c5423279e8091fc96f7c9f10359e2))
-
-
-
-## [0.2.3](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.2...v0.2.3) (2020-08-14)
-
-
-### Bug Fixes
-
-* correct script sequence ([000d864](https://github.com/mark-j/Caseta2Mqtt/commit/000d864e9f6e03ed10f5c78410d2cbe544be7f8b))
 
 
 
