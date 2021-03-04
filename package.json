@@ -34,7 +34,7 @@
     "express-ws": "4.0.0",
     "get-port": "^5.1.1",
     "html-to-text": "7.0.0",
-    "param-case": "3.0.3",
+    "param-case": "3.0.4",
     "rxjs": "6.6.6",
     "safe-json-stringify": "1.2.0",
     "telnet-client": "1.4.6",
