@@ -37,7 +37,7 @@
     "param-case": "3.0.4",
     "rxjs": "6.6.6",
     "safe-json-stringify": "1.2.0",
-    "telnet-client": "1.4.6",
+    "telnet-client": "1.4.7",
     "time-stamp": "2.2.0",
     "tslib": "2.1.0",
     "wait-on": "5.2.1",
