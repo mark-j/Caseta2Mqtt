@@ -54,7 +54,7 @@
     "@types/jasminewd2": "2.0.8",
     "@types/node": "14.14.31",
     "@zeit/ncc": "0.22.3",
-    "aedes": "0.44.1",
+    "aedes": "0.45.0",
     "codelyzer": "6.0.1",
     "concurrently": "6.0.0",
     "cypress": "6.6.0",
