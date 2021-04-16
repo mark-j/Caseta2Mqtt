@@ -61,7 +61,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Assign reviewer/owner
-        uses: kentaro-m/auto-assign-action@v1.1.1
+        uses: kentaro-m/auto-assign-action@v1
         with:
           repo-token: ${{secrets.BOT_TOKEN}}
 
