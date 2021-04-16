@@ -1,3 +1,12 @@
+## [0.6.2](https://github.com/mark-j/Caseta2Mqtt/compare/v0.6.1...v0.6.2) (2021-04-16)
+
+
+### Bug Fixes
+
+* update assignment action version ([#84](https://github.com/mark-j/Caseta2Mqtt/issues/84)) ([53fe10a](https://github.com/mark-j/Caseta2Mqtt/commit/53fe10a8164c9be9c2648036a116dae2a996f197))
+
+
+
 ## [0.6.1](https://github.com/mark-j/Caseta2Mqtt/compare/v0.6.0...v0.6.1) (2021-01-23)
 
 
@@ -33,22 +42,6 @@
 ### Features
 
 * add debug logging ([9050d5e](https://github.com/mark-j/Caseta2Mqtt/commit/9050d5e06a583ea5f21213ec0990e5c85c5c7662))
-
-
-
-# [0.3.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.2.3...v0.3.0) (2020-09-20)
-
-
-### Bug Fixes
-
-* don't publish before connection ([20df80e](https://github.com/mark-j/Caseta2Mqtt/commit/20df80e4f2c986f1ce068a115f55308a3f6c8e3c))
-* don't restart on data change ([d1ffc8a](https://github.com/mark-j/Caseta2Mqtt/commit/d1ffc8aaf5ef77fc377aced3bd6884c092038467))
-
-
-### Features
-
-* don't send duplicate messages ([b575f9b](https://github.com/mark-j/Caseta2Mqtt/commit/b575f9b2050ecfc263f861212df2337dedb0d803))
-* improve logging ([710e9b8](https://github.com/mark-j/Caseta2Mqtt/commit/710e9b8fd31c5423279e8091fc96f7c9f10359e2))
 
 
 

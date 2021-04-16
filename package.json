@@ -1,6 +1,6 @@
 {
   "name": "caseta2mqtt",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "scripts": {
     "clean": "rimraf dist && mkdirp dist/data",
     "start": "npm run build && cd dist && node .",
