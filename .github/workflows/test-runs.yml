@@ -1,0 +1,22 @@
+name: Test Runs
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  e2e-test:
+    name: e2e
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+      - name: Run e2e tests
+        run: npm run test
