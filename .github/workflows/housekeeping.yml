@@ -1,0 +1,34 @@
+name: Housekeeping
+
+on:
+  pull_request_target:
+    branches:
+      - main
+    types:
+      - opened
+      - reopened
+      - assigned
+      - unassigned
+      - ready_for_review
+      - review_requested
+      - review_request_removed
+
+jobs:
+  pr-assignment:
+    name: assignment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Assign reviewer/owner
+        uses: kentaro-m/auto-assign-action@v1.1.2
+        with:
+          repo-token: ${{secrets.BOT_TOKEN}}
+
+  dependabot-merge:
+    name: dependabot merge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
+        with:
+          target: minor
+          github-token: ${{ secrets.BOT_TOKEN }}

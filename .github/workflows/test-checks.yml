@@ -2,7 +2,7 @@ name: Test Checks
 
 on:
   workflow_run:
-    workflows: ["Test Runs"]
+    workflows: ["Tests"]
     types:
       - completed
 
