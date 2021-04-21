@@ -1,37 +1,37 @@
 name: PR Checks
 
 on:
-  pull_request:
+  pull_request_target:
     branches:
       - main
     types:
       - opened
       - edited
       - reopened
-      - synchronize
+      - assigned
+      - unassigned
+      - ready_for_review
+      - review_requested
+      - review_request_removed
 
 jobs:
-  pr-title-check:
-    name: Commitlint
+  pr-title:
+    name: commitlint
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
-        with:
-          ref: ${{ github.ref }}
       - name: Get dependencies
-        run: npm install --no-save @commitlint/config-conventional @commitlint/config-conventional
+        run: npm install --no-save @commitlint/config-conventional
       - name: Run commitlint
-        uses: JulienKode/pull-request-name-linter-action@v0.1.2
+        uses: JulienKode/pull-request-name-linter-action@v0.2.0
       - name: Comment on failure
         if: failure() && !contains(github.event.pull_request.labels.*.name, 'fix-title')
         uses: unsplash/comment-on-pr@master
         env:
           GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
         with:
-          msg: ":warning: The name of this pull request failed linting. Please fix it before merging."
+          msg: ":warning: The name of this pull request failed linting. Please fix it before merging. [(more info)](https://github.com/mark-j/Caseta2Mqtt#conventional-commits")
           check_for_duplicate_msg: false
       - name: Label on failure
         if: failure() && !contains(github.event.pull_request.labels.*.name, 'fix-title')
@@ -57,7 +57,7 @@ jobs:
           type: remove
 
   pr-assignment:
-    name: Assignment
+    name: assignment
     runs-on: ubuntu-latest
     steps:
       - name: Assign reviewer/owner
@@ -65,43 +65,12 @@ jobs:
         with:
           repo-token: ${{secrets.BOT_TOKEN}}
 
-  e2e-test:
-    name: Tests
+  dependabot-merge:
+    name: dependabot merge
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout source code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - uses: ahmadnassri/action-dependabot-auto-merge@v2
         with:
-          ref: ${{ github.ref }}
-      - name: Run e2e tests
-        run: npm run test
-      - name: Comment on failure
-        if: failure() && !contains(github.event.pull_request.labels.*.name, 'tests-failing')
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-        with:
-          msg: ":warning: Automated smoke tests failed! Please review the results and fix the issue before merging."
-          check_for_duplicate_msg: false
-      - name: Label on failure
-        if: failure() && !contains(github.event.pull_request.labels.*.name, 'tests-failing')
-        uses: buildsville/add-remove-label@v1
-        with:
-          token: ${{secrets.BOT_TOKEN}}
-          label: tests-failing
-          type: add
-      - name: Comment on success
-        if: contains(github.event.pull_request.labels.*.name, 'tests-failing') && !failure()
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-        with:
-          msg: ":heavy_check_mark: Automated smoke tests passed!"
-          check_for_duplicate_msg: false
-      - name: Remove label on success
-        if: contains(github.event.pull_request.labels.*.name, 'tests-failing') && !failure()
-        uses: buildsville/add-remove-label@v1
-        with:
-          token: ${{secrets.BOT_TOKEN}}
-          label: tests-failing
-          type: remove
+          target: minor
+          github-token: ${{ secrets.BOT_TOKEN }}
