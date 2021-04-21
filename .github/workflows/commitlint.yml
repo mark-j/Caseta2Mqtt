@@ -1,0 +1,22 @@
+name: Commitlint
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - edited
+      - reopened
+
+jobs:
+  pr-title:
+    name: commitlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v1
+      - name: Get dependencies
+        run: npm install --no-save @commitlint/config-conventional
+      - name: Run commitlint
+        uses: JulienKode/pull-request-name-linter-action@v0.2.0
