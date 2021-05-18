@@ -12,39 +12,44 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Comment on success
+      - name: Post comment
         if: ${{ contains(github.event.pull_request.labels.*.name, 'fix-title') }}
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          msg: ":heavy_check_mark: The name of this pull request looks good now."
-          check_for_duplicate_msg: false
-      - name: Remove label on success
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body: ":heavy_check_mark: The name of this pull request looks good now."
+          token: ${{ secrets.BOT_TOKEN }}
+      - name: Remove label
+        uses: actions-ecosystem/action-remove-labels@v1
         if: ${{ contains(github.event.pull_request.labels.*.name, 'fix-title') }}
-        uses: buildsville/add-remove-label@v1
         with:
-          token: ${{secrets.BOT_TOKEN}}
-          label: fix-title
-          type: remove
+          number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          labels: fix-title
+          github_token: ${{ secrets.BOT_TOKEN }}
 
   check-for-failure:
     name: failure
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-      - name: Comment on failure
+      - name: Post comment if not labeled
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'fix-title') }}
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          msg: ":warning: The name of this pull request failed linting. Please fix it before merging. [(more info)](https://github.com/mark-j/Caseta2Mqtt#conventional-commits)"
-          check_for_duplicate_msg: false
-      - name: Label on failure
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body: ":warning: The name of this pull request failed linting. Please fix it before merging. [(more info)](https://github.com/mark-j/Caseta2Mqtt#conventional-commits)"
+          token: ${{ secrets.BOT_TOKEN }}
+      - name: Post comment if labeled
+        if: ${{ contains(github.event.pull_request.labels.*.name, 'fix-title') }}
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          body: "The name of this pull request still failed linting :slightly_frowning_face:"
+          token: ${{ secrets.BOT_TOKEN }}
+      - name: Add label
+        uses: actions-ecosystem/action-add-labels@v1
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'fix-title') }}
-        uses: buildsville/add-remove-label@v1
         with:
-          token: ${{secrets.BOT_TOKEN}}
-          label: fix-title
-          type: add
+          number: ${{ github.event.workflow_run.pull_requests[0].number }}
+          labels: fix-title
+          github_token: ${{ secrets.BOT_TOKEN }}

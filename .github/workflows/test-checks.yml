@@ -11,10 +11,7 @@ jobs:
     name: success
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    env:
-      EVENT_OBJ:  ${{ toJson(github.event) }}
     steps:
-      - run: echo $EVENT_OBJ
       - name: Post comment
         uses: peter-evans/create-or-update-comment@v1
         with:
