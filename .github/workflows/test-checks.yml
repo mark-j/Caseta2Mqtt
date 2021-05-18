@@ -18,14 +18,14 @@ jobs:
       - name: Post comment
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.number }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body: ":heavy_check_mark: Automated tests passed!"
           token: ${{ secrets.BOT_TOKEN }}
       - name: Remove label
         uses: actions-ecosystem/action-remove-labels@v1
         if: ${{ contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
         with:
-          number: ${{ github.event.number }}
+          number: ${{ github.event.workflow_run.pull_requests[0].number }}
           labels: tests-failing
           github_token: ${{ secrets.BOT_TOKEN }}
 
@@ -38,20 +38,20 @@ jobs:
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.number }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body: ":warning: Automated tests failed! Please review the results and fix the issue before merging."
           token: ${{ secrets.BOT_TOKEN }}
       - name: Post comment if labeled
         if: ${{ contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
         uses: peter-evans/create-or-update-comment@v1
         with:
-          issue-number: ${{ github.event.number }}
+          issue-number: ${{ github.event.workflow_run.pull_requests[0].number }}
           body: "Automated tests are still failing :slightly_frowning_face:"
           token: ${{ secrets.BOT_TOKEN }}
       - name: Add label
         uses: actions-ecosystem/action-add-labels@v1
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
         with:
-          number: ${{ github.event.number }}
+          number: ${{ github.event.workflow_run.pull_requests[0].number }}
           labels: tests-failing
           github_token: ${{ secrets.BOT_TOKEN }}
