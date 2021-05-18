@@ -12,29 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Post comment if not labeled
-        if: ${{ contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+      - name: Post comment
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          msg: ":heavy_check_mark: Automated tests passed!"
-          check_for_duplicate_msg: false
-      - name: Post comment if labeled
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
-        with:
-          msg: "Tests are still failing :slightly_frowning_face:"
-          check_for_duplicate_msg: false
+          issue-number: ${{ github.event.number }}
+          body: ":heavy_check_mark: Automated tests passed!"
+          token: ${{ secrets.BOT_TOKEN }}
       - name: Remove label
+        uses: actions-ecosystem/action-remove-labels@v1
         if: ${{ contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
-        uses: buildsville/add-remove-label@v1
         with:
-          token: ${{secrets.BOT_TOKEN}}
-          label: tests-failing
-          type: remove
+          number: ${{ github.event.number }}
+          labels: tests-failing
+          github_token: ${{ secrets.BOT_TOKEN }}
 
   check-for-failure:
     name: failure
@@ -43,24 +33,22 @@ jobs:
     steps:
       - name: Post comment if not labeled
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          msg: ":warning: Automated tests failed! Please review the results and fix the issue before merging."
-          check_for_duplicate_msg: false
-      - name: Post comment if already labeled
+          issue-number: ${{ github.event.number }}
+          body: ":warning: Automated tests failed! Please review the results and fix the issue before merging."
+          token: ${{ secrets.BOT_TOKEN }}
+      - name: Post comment if labeled
         if: ${{ contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+        uses: peter-evans/create-or-update-comment@v1
         with:
-          msg: "Automated tests are still failing :slightly_frowning_face:"
-          check_for_duplicate_msg: false
-      - name: Apply label if not already labeled
+          issue-number: ${{ github.event.number }}
+          body: "Automated tests are still failing :slightly_frowning_face:"
+          token: ${{ secrets.BOT_TOKEN }}
+      - name: Add label
+        uses: actions-ecosystem/action-add-labels@v1
         if: ${{ !contains(github.event.pull_request.labels.*.name, 'tests-failing') }}
-        uses: buildsville/add-remove-label@v1
         with:
-          token: ${{secrets.BOT_TOKEN}}
-          label: tests-failing
-          type: add
+          number: ${{ github.event.number }}
+          labels: tests-failing
+          github_token: ${{ secrets.BOT_TOKEN }}
