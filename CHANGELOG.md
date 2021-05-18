@@ -1,3 +1,16 @@
+## [0.6.3](https://github.com/mark-j/Caseta2Mqtt/compare/v0.6.2...v0.6.3) (2021-05-18)
+
+
+### Bug Fixes
+
+* add checkout step ([995dc51](https://github.com/mark-j/Caseta2Mqtt/commit/995dc515813621614a706dc8dcb0da28cbe0f2fa))
+* add missing trigger ([60fc6a0](https://github.com/mark-j/Caseta2Mqtt/commit/60fc6a08f8cf058f7c4dbd0129c79f9cfded5bef))
+* correct workflow syntax error ([d77f4ee](https://github.com/mark-j/Caseta2Mqtt/commit/d77f4ee266a103e7c29bc518f09f5ef8d4fb5cf8))
+* remove bot token requirement ([#86](https://github.com/mark-j/Caseta2Mqtt/issues/86)) ([71197cc](https://github.com/mark-j/Caseta2Mqtt/commit/71197cc08dff72b75891325572768225f50ca904))
+* split commitlint workflow ([c63a7a6](https://github.com/mark-j/Caseta2Mqtt/commit/c63a7a66912a347a382557c3453e3abb25e67189))
+
+
+
 ## [0.6.2](https://github.com/mark-j/Caseta2Mqtt/compare/v0.6.1...v0.6.2) (2021-04-16)
 
 
@@ -33,15 +46,6 @@
 * bridge MQTT set commands ([cc49c27](https://github.com/mark-j/Caseta2Mqtt/commit/cc49c2742dccf50facbebac6bd0db1e9d3a0efad))
 * clarify delete messaging ([e674923](https://github.com/mark-j/Caseta2Mqtt/commit/e6749237b9289d42fe6eb6189f6a27794b74f6c5))
 * limit characters for MQTT topic ([3cd31b6](https://github.com/mark-j/Caseta2Mqtt/commit/3cd31b69073e99512180916adef50371d37ab129))
-
-
-
-# [0.4.0](https://github.com/mark-j/Caseta2Mqtt/compare/v0.3.0...v0.4.0) (2020-11-02)
-
-
-### Features
-
-* add debug logging ([9050d5e](https://github.com/mark-j/Caseta2Mqtt/commit/9050d5e06a583ea5f21213ec0990e5c85c5c7662))
 
 
 
