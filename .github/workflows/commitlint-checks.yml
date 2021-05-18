@@ -2,9 +2,10 @@ name: Commitlint Checks
 
 on:
   workflow_run:
-    workflows: ["Commitlint"]
     types:
       - completed
+    workflows:
+      - Commitlint
 
 jobs:
   check-for-success:

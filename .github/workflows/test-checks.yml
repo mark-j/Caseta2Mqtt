@@ -2,9 +2,10 @@ name: Test Checks
 
 on:
   workflow_run:
-    workflows: ["Tests"]
     types:
       - completed
+    workflows:
+      - Tests
 
 jobs:
   check-for-success:
