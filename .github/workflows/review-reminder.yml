@@ -1,16 +1,17 @@
+name: Review Reminder
+
 on:
   schedule:
-    - cron: '*/9 * * * *'
+    - cron: "0 5 * * *"
 
 jobs:
-  review-reminder:
-    name: Review Reminder
+  stale:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - uses: blombard/review-reminder@master
-      with:
-        token: ${{secrets.BOT_TOKEN}}
-        reminder-comment: Can you review this pull request?
-        days-before-reminder: '1'
+      - uses: actions/stale@v3
+        with:
+          repo-token: ${{ secrets.BOT_TOKEN }}
+          stale-issue-message: "@mark-j this issue has been sitting for a while. Can you take a look?"
+          stale-pr-message: "@mark-j this pull request has been sitting for a while. Can you take a look?"
+          days-before-stale: 10
+          days-before-close: -1
