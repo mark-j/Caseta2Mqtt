@@ -35,7 +35,7 @@
     "get-port": "^5.1.1",
     "html-to-text": "7.0.0",
     "param-case": "3.0.4",
-    "rxjs": "6.6.6",
+    "rxjs": "6.6.7",
     "safe-json-stringify": "1.2.0",
     "telnet-client": "1.4.9",
     "time-stamp": "2.2.0",
