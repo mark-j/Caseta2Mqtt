@@ -13,24 +13,13 @@ on:
 
 jobs:
   bump-version:
-    name: Bump Version and Release
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
         uses: actions/checkout@v2
         with:
           ref: ${{ github.ref }}
-      - name: Conventional Changelog Action
-        uses: TriPSs/conventional-changelog-action@v3
-        with:
-          github-token: ${{ secrets.BOT_TOKEN }}
-          git-message: "ci: bump version to {version}"
-          git-user-name: CI Bot
-          git-user-email: marks-ci-bot@users.noreply.github.com
-          preset: angular
-          tag-prefix: v
-          version-file: package.json, package-lock.json
-          skip-on-empty: true
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
